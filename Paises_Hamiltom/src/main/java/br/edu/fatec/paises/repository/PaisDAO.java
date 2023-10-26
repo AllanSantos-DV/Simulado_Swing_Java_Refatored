@@ -24,8 +24,11 @@ public class PaisDAO {
         addPais("Ilhas Malvinas", "Stanley", 12173);
     }
 
-    public void addPais(String nome, String capital, int tamanho) {
-        Pais pais = new Pais(nome, capital, tamanho);
+    private void addPais(String nome, String capital, double dimensao) {
+        addPais(new Pais(nome, capital, dimensao));
+    }
+
+    public void addPais(Pais pais) {
         paises.add(pais);
     }
 
