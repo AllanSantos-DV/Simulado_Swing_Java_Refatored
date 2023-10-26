@@ -19,7 +19,8 @@ public class Pais {
 
     public String toString() {
         StringBuilder nomePais = new StringBuilder("Vizinhos: ");
-        if (fronteira == null || fronteira.isEmpty()) return String.format("Nome: %s. Capital: %s. Dimensão: %,.2f", nome, capital, dimensao);
+        if (fronteira == null || fronteira.isEmpty())
+            return String.format("Nome: %s. Capital: %s. Dimensão: %,.2f", nome, capital, dimensao);
         for (Pais pais : fronteira) {
             nomePais.append(pais.getNome()).append(", ");
         }
@@ -31,7 +32,7 @@ public class Pais {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pais pais = (Pais) o;
-        return Objects.equals(nome, pais.nome) && Objects.equals(capital, pais.capital);
+        return Objects.equals(nome.toLowerCase(), pais.nome.toLowerCase()) && Objects.equals(capital.toLowerCase(), pais.capital.toLowerCase());
     }
 
     @Override
@@ -43,7 +44,13 @@ public class Pais {
         return nome;
     }
 
-    public double getDimensao() {return dimensao;}
+    public String getCapital() {
+        return capital;
+    }
+
+    public double getDimensao() {
+        return dimensao;
+    }
 
     public List<Pais> getFronteira() {
         return fronteira;
