@@ -20,6 +20,10 @@ public class ListarPaises implements MontarTelas {
     private static final int COMPONENTS_WIDTH = 200;
     private static final int COMPONENTS_HEIGHT = 25;
 
+    public ListarPaises() {
+        btnMenu.addActionListener(e -> voltarMenu(btnMenu));
+    }
+
     @ComponentMethod
     public JLabel getLblTitulo() {
         lblTitulo.setText(ListarPaisesText.LBL_TITLE.getString());

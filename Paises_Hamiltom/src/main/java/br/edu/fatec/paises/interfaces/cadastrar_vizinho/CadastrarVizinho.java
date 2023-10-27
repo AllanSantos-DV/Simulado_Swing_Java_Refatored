@@ -3,11 +3,12 @@ package br.edu.fatec.paises.interfaces.cadastrar_vizinho;
 import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.interfaces.enums.cadastrar_vizinho.CadastrarVizinhoText;
 import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.services.cadastrar_vizinho.CadastrarVizinhoService;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CadastrarVizinho implements MontarTelas {
+public class CadastrarVizinho extends CadastrarVizinhoService implements MontarTelas {
     private final JLabel lblTitulo = new JLabel();
     private final JLabel lblPais = new JLabel();
     private final JComboBox<String> cmbPais = new JComboBox<>();
@@ -19,6 +20,10 @@ public class CadastrarVizinho implements MontarTelas {
     private final JButton btnMenu = new JButton();
     private static final int COMPONENTS_WIDTH = 200;
     private static final int COMPONENTS_HEIGHT = 25;
+
+    public CadastrarVizinho() {
+        btnMenu.addActionListener(e -> voltarMenu(btnMenu));
+    }
 
     @ComponentMethod
     public JLabel getLblTitulo() {

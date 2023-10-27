@@ -23,6 +23,11 @@ public class AdicionarPais extends AdicionarPaisService implements MontarTelas {
     private static final int COMPONENTS_HEIGHT = 25;
     private static final int LABEL_WIDTH = 90;
 
+    public AdicionarPais() {
+        btnSalvar.addActionListener(e -> adicionarPais(this));
+        btnMenu.addActionListener(e -> voltarMenu(btnMenu));
+    }
+
     @ComponentMethod
     public JLabel getLblTitulo() {
         lblTitulo.setText(AdicionarPaisText.LBL_TITLE_REGISTER.getString());
@@ -84,7 +89,6 @@ public class AdicionarPais extends AdicionarPaisService implements MontarTelas {
     public JButton getBtnSalvar() {
         btnSalvar.setText(AdicionarPaisText.BTN_SAVE.getString());
         btnSalvar.setBounds(125, 210, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
-        btnSalvar.addActionListener(e -> adicionarPais(this));
         return btnSalvar;
     }
 

@@ -19,6 +19,10 @@ public class EditarPais implements MontarTelas {
     private static final int COMPONENTS_WIDTH = 200;
     private static final int COMPONENTS_HEIGHT = 25;
 
+    public EditarPais(){
+        btnMenu.addActionListener(e-> voltarMenu(btnMenu));
+    }
+
     @ComponentMethod
     public JLabel getLblTitulo() {
         lblTitulo.setText(EditarPaisText.LBL_TITLE.getString());

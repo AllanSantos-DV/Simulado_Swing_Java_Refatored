@@ -7,7 +7,9 @@ import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
-import static java.lang.System.*;
+import static br.edu.fatec.paises.Main.menu;
+import static br.edu.fatec.paises.Main.menuServices;
+import static java.lang.System.out;
 
 public interface MontarTelas {
 
@@ -24,5 +26,10 @@ public interface MontarTelas {
                     }
                 });
         return panelMenu;
+    }
+
+    default void voltarMenu(JButton button) {
+        menuServices.telaClose(button);
+        menuServices.telaApp("Menu", menu.montarTela());
     }
 }
