@@ -7,7 +7,11 @@ import br.edu.fatec.paises.services.menu.MenuServices;
 public class Main {
 
     public static final PaisDAO paisDAO = new PaisDAO();
+    public static final MenuServices menuServices = new MenuServices();
+    public static final Menu menu = new Menu();
+
+
     public static void main(String[] args) {
-        new MenuServices().telaApp("Menu", new Menu().montarTela());
+        menuServices.telaApp("Menu", menu.montarTela());
     }
 }
