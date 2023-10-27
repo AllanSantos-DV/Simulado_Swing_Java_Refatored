@@ -35,7 +35,7 @@ public class ListarPaises implements MontarTelas {
 
     @ComponentMethod
     public JLabel getLblQuantityPaises() {
-        lblQuantityPaises.setText(ListarPaisesText.LBL_QTD_PAISES.getString()+ListarPaisesText.LBL_QTD_PAISES_VALUE.getString());
+        lblQuantityPaises.setText(ListarPaisesText.LBL_QTD_PAISES.getString() + ListarPaisesText.LBL_QTD_PAISES_VALUE.getString());
         lblQuantityPaises.setHorizontalAlignment(SwingConstants.LEFT);
         lblQuantityPaises.setBounds(300, 40, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return lblQuantityPaises;
@@ -45,7 +45,7 @@ public class ListarPaises implements MontarTelas {
     public JLabel getLblListar() {
         lblListar.setText(ListarPaisesText.LBL_LISTAR.getString());
         lblListar.setHorizontalAlignment(SwingConstants.LEFT);
-        lblListar.setBounds(50, 40, COMPONENTS_WIDTH/3, COMPONENTS_HEIGHT);
+        lblListar.setBounds(50, 40, COMPONENTS_WIDTH / 3, COMPONENTS_HEIGHT);
         return lblListar;
     }
 
@@ -59,14 +59,14 @@ public class ListarPaises implements MontarTelas {
     @ComponentMethod
     public JButton getBtnListarDimensao() {
         btnListarDimensao.setText(ListarPaisesText.BTN_DIMENSION.getString());
-        btnListarDimensao.setBounds(190, 40, COMPONENTS_WIDTH/2, COMPONENTS_HEIGHT);
+        btnListarDimensao.setBounds(190, 40, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
         return btnListarDimensao;
     }
 
     @ComponentMethod
     public JScrollPane getTxtAreaPaisesComScroll() {
         txtAreaPaises.setEditable(false);
-        scrollPane.setBounds(25, 70, COMPONENTS_WIDTH * 2+35, COMPONENTS_HEIGHT * 6);
+        scrollPane.setBounds(25, 70, COMPONENTS_WIDTH * 2 + 35, COMPONENTS_HEIGHT * 6);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         return scrollPane;
@@ -76,7 +76,7 @@ public class ListarPaises implements MontarTelas {
     @ComponentMethod
     public JButton getBtnMenu() {
         btnMenu.setText(ListarPaisesText.BTN_MENU.getString());
-        btnMenu.setBounds(200, 225, COMPONENTS_WIDTH/2, COMPONENTS_HEIGHT);
+        btnMenu.setBounds(200, 225, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
         return btnMenu;
     }
 }

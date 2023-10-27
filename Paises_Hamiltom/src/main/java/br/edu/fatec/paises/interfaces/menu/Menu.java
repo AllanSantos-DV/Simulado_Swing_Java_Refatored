@@ -19,8 +19,8 @@ public class Menu extends MenuServices implements MontarTelas {
     private static final int COMPONENTS_WIDTH = 150;
     private static final int COMPONENTS_HEIGHT = 30;
 
-    public Menu(){
-        Stream.of(btnCadastrarPais,btnADDVizinho,btnEditarPais,btnListarPais,btnDeletarPais)
+    public Menu() {
+        Stream.of(btnCadastrarPais, btnADDVizinho, btnEditarPais, btnListarPais, btnDeletarPais)
                 .forEach(this::addListener);
     }
 
