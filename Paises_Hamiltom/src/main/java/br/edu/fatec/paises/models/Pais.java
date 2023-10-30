@@ -1,5 +1,7 @@
 package br.edu.fatec.paises.models;
 
+import br.edu.fatec.paises.enums.models.PaisText;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,13 +19,12 @@ public class Pais {
     }
 
     public String toString() {
-        StringBuilder nomePais = new StringBuilder("Vizinhos: ");
+        StringBuilder nomePais = new StringBuilder(PaisText.PRINT_FRONTIER.getString());
         if (fronteira == null || fronteira.isEmpty())
-            return String.format("Nome: %s. Capital: %s. Dimensão: %,.2f", nome, capital, dimensao);
-        for (Pais pais : fronteira) {
-            nomePais.append(pais.getNome()).append(", ");
-        }
-        return String.format("Nome: %s. Capital: %s. Dimensão: %,.2f. %s", nome, capital, dimensao, nomePais);
+            return String.format(PaisText.PRINT_PAIS.getString(), nome, capital, dimensao);
+        for (Pais pais : fronteira) nomePais.append(pais.getNome()).append(", ");
+        String paisAndFrontier = PaisText.PRINT_PAIS.getString() + "%s";
+        return String.format(paisAndFrontier, nome, capital, dimensao, nomePais);
     }
 
     @Override
