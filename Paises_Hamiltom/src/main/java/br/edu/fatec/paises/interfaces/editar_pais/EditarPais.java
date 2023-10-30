@@ -1,13 +1,14 @@
 package br.edu.fatec.paises.interfaces.editar_pais;
 
-import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
-import br.edu.fatec.paises.interfaces.enums.editar_pais.EditarPaisText;
-import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.enums.editar_pais.EditarPaisText;
+import br.edu.fatec.paises.implementar.MontarTelas;
+import br.edu.fatec.paises.services.editar_pais.EditarPaisService;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class EditarPais implements MontarTelas {
+public class EditarPais extends EditarPaisService implements MontarTelas {
     private final JLabel lblTitulo = new JLabel();
     private final JLabel lblSelectPais = new JLabel();
     private final JComboBox<String> cmbSelectPais = new JComboBox<>();
@@ -20,7 +21,11 @@ public class EditarPais implements MontarTelas {
     private static final int COMPONENTS_HEIGHT = 25;
 
     public EditarPais() {
+        initCmbPais(cmbSelectPais, cmbSelectVizinho, btnDeleteVizinho);
+        cmbSelectPais.addActionListener(e -> initCmbVizinho(cmbSelectVizinho, cmbSelectPais, btnDeleteVizinho));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
+        btnEditPais.addActionListener(e -> editarPais(cmbSelectPais, btnEditPais));
+        btnDeleteVizinho.addActionListener(e -> deleteVizinho(lblDeleteVizinho, cmbSelectPais, cmbSelectVizinho, btnDeleteVizinho));
     }
 
     @ComponentMethod
@@ -28,7 +33,7 @@ public class EditarPais implements MontarTelas {
         lblTitulo.setText(EditarPaisText.LBL_TITLE.getString());
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setBounds(150, 10, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        lblTitulo.setBounds(50, 10, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblTitulo;
     }
 
@@ -62,7 +67,7 @@ public class EditarPais implements MontarTelas {
     @ComponentMethod
     public JLabel getLblDeleteVizinho() {
         lblDeleteVizinho.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDeleteVizinho.setBounds(150, 150, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        lblDeleteVizinho.setBounds(50, 150, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblDeleteVizinho;
     }
 

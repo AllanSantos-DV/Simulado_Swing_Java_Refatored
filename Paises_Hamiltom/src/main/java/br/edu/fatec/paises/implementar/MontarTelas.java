@@ -1,6 +1,6 @@
-package br.edu.fatec.paises.interfaces.implementar;
+package br.edu.fatec.paises.implementar;
 
-import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.interfaces.menu.Menu;
 
 import javax.swing.*;
@@ -14,6 +14,8 @@ public interface MontarTelas {
 
     default JPanel montarTela() {
         JPanel panelMenu = new JPanel();
+        panelMenu.setLayout(null);
+        panelMenu.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.LIGHT_GRAY));
         panelMenu.setSize(500, 300);
         Stream.of(this.getClass().getMethods())
                 .filter(method -> method.isAnnotationPresent(ComponentMethod.class))

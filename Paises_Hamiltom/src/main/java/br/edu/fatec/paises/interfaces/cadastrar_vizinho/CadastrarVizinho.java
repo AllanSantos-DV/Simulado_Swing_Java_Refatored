@@ -1,8 +1,8 @@
 package br.edu.fatec.paises.interfaces.cadastrar_vizinho;
 
-import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
-import br.edu.fatec.paises.interfaces.enums.cadastrar_vizinho.CadastrarVizinhoText;
-import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.enums.cadastrar_vizinho.CadastrarVizinhoText;
+import br.edu.fatec.paises.implementar.MontarTelas;
 import br.edu.fatec.paises.services.cadastrar_vizinho.CadastrarVizinhoService;
 
 import javax.swing.*;
@@ -22,6 +22,10 @@ public class CadastrarVizinho extends CadastrarVizinhoService implements MontarT
     private static final int COMPONENTS_HEIGHT = 25;
 
     public CadastrarVizinho() {
+        updateCombs(cmbPais, cmbVizinho, btnSelecionar);
+        cmbPais.addActionListener(e -> updateCmbVizinhoPaisChange(btnSelecionar,cmbPais, cmbVizinho));
+        btnCadastrar.addActionListener(e -> addPaisesSelected(lblSuccess, cmbPais));
+        btnSelecionar.addActionListener(e -> selecionarVizinho(lblSuccess, cmbPais, cmbVizinho, btnSelecionar));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
     }
 
@@ -30,7 +34,7 @@ public class CadastrarVizinho extends CadastrarVizinhoService implements MontarT
         lblTitulo.setText(CadastrarVizinhoText.LBL_TITLE_REGISTER.getString());
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setBounds(150, 10, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        lblTitulo.setBounds(50, 10, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblTitulo;
     }
 
@@ -72,7 +76,7 @@ public class CadastrarVizinho extends CadastrarVizinhoService implements MontarT
     @ComponentMethod
     public JLabel getLblSuccess() {
         lblSuccess.setHorizontalAlignment(SwingConstants.CENTER);
-        lblSuccess.setBounds(150, 175, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        lblSuccess.setBounds(50, 175, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblSuccess;
     }
 

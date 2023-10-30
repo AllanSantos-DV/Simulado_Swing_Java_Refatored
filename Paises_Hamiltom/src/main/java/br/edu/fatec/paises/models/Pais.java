@@ -8,14 +8,13 @@ public class Pais {
     private final String nome;
     private final String capital;
     private final double dimensao;
+    private List<Pais> fronteira;
 
     public Pais(String nome, String capital, double dimensao) {
         this.nome = nome;
         this.capital = capital;
         this.dimensao = dimensao;
     }
-
-    private List<Pais> fronteira;
 
     public String toString() {
         StringBuilder nomePais = new StringBuilder("Vizinhos: ");
@@ -32,7 +31,7 @@ public class Pais {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pais pais = (Pais) o;
-        return Objects.equals(nome.toLowerCase(), pais.nome.toLowerCase()) && Objects.equals(capital.toLowerCase(), pais.capital.toLowerCase());
+        return Objects.equals(nome.toLowerCase(), pais.getNome().toLowerCase());
     }
 
     @Override
@@ -53,15 +52,12 @@ public class Pais {
     }
 
     public List<Pais> getFronteira() {
-        return fronteira;
+        List<Pais> novaFronteira = new ArrayList<>();
+        return fronteira == null?  novaFronteira : this.fronteira;
     }
 
     public void setFronteira(List<Pais> fronteira) {
-        if (this.fronteira == null) this.fronteira = fronteira;
-        else {
-            List<Pais> vizinhos = new ArrayList<>(this.fronteira);
-            vizinhos.addAll(fronteira);
-            this.fronteira = vizinhos;
-        }
+        if (this.fronteira == null) this.fronteira = new ArrayList<>(fronteira);
+        else this.fronteira.addAll(fronteira);
     }
 }

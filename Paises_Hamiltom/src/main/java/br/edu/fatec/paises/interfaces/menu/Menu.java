@@ -1,8 +1,8 @@
 package br.edu.fatec.paises.interfaces.menu;
 
-import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
-import br.edu.fatec.paises.interfaces.enums.menu.MenuText;
-import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.enums.menu.MenuText;
+import br.edu.fatec.paises.implementar.MontarTelas;
 import br.edu.fatec.paises.services.menu.MenuServices;
 
 import javax.swing.*;
@@ -27,38 +27,39 @@ public class Menu extends MenuServices implements MontarTelas {
     @ComponentMethod
     public JLabel getLblTitulo() {
         lblTitulo.setText(MenuText.LBL_TITLE.getString());
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        lblTitulo.setBounds(50, 10, 400, COMPONENTS_HEIGHT);
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 25));
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitulo.setBounds(15, 10, COMPONENTS_WIDTH*3, COMPONENTS_HEIGHT*3);
         return lblTitulo;
     }
 
     @ComponentMethod
     public JButton getBtnCadastrarPais() {
-        btnCadastrarPais.setBounds(50, 80, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        btnCadastrarPais.setBounds(70, 100, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return btnCadastrarPais;
     }
 
     @ComponentMethod
     public JButton getBtnADDVizinho() {
-        btnADDVizinho.setBounds(50, 120, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        btnADDVizinho.setBounds(70, 140, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return btnADDVizinho;
     }
 
     @ComponentMethod
     public JButton getBtnEditarPais() {
-        btnEditarPais.setBounds(250, 80, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        btnEditarPais.setBounds(270, 100, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return btnEditarPais;
     }
 
     @ComponentMethod
     public JButton getBtnListarPais() {
-        btnListarPais.setBounds(250, 120, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        btnListarPais.setBounds(270, 140, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return btnListarPais;
     }
 
     @ComponentMethod
     public JButton getBtnDeletarPais() {
-        btnDeletarPais.setBounds(150, 160, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        btnDeletarPais.setBounds(170, 180, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return btnDeletarPais;
     }
 }

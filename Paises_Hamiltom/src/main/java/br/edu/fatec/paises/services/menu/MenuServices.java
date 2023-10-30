@@ -4,21 +4,17 @@ import br.edu.fatec.paises.interfaces.adicionar_pais.AdicionarPais;
 import br.edu.fatec.paises.interfaces.cadastrar_vizinho.CadastrarVizinho;
 import br.edu.fatec.paises.interfaces.deletar_pais.DeletarPais;
 import br.edu.fatec.paises.interfaces.editar_pais.EditarPais;
-import br.edu.fatec.paises.interfaces.enums.menu.MenuText;
-import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.enums.menu.MenuText;
+import br.edu.fatec.paises.implementar.MontarTelas;
 import br.edu.fatec.paises.interfaces.listar_paises.ListarPaises;
+import br.edu.fatec.paises.interfaces.menu.Menu;
 
 import javax.swing.*;
-import java.util.Map;
+
+import static br.edu.fatec.paises.Main.paisDAO;
+
 public class MenuServices {
 
-    private static final Map<String, MontarTelas> telas = Map.of(
-            MenuText.BTN_NEW_PAIS.getString(), new AdicionarPais(),
-            MenuText.BTN_NEW_VIZINHO.getString(), new CadastrarVizinho(),
-            MenuText.BTN_EDIT_PAIS.getString(), new EditarPais(),
-            MenuText.BTN_LIST_PAISES.getString(), new ListarPaises(),
-            MenuText.BTN_DELETE_PAIS.getString(), new DeletarPais()
-    );
     public void telaApp(String name, JPanel tela) {
         JFrame frame = new JFrame(name);
         frame.setContentPane(tela);
@@ -35,10 +31,36 @@ public class MenuServices {
         frame.dispose();
     }
 
+    public boolean paisesVazio(JButton button) {
+        if(paisDAO.getPaises().isEmpty() && !button.getText().equals(MenuText.BTN_NEW_PAIS.getString())) {
+            String[] options = {MenuText.BTN_NEW_PAIS.getString(), MenuText.BTN_MENU.getString()};
+            int choice = JOptionPane.showInternalOptionDialog(null,
+                    MenuText.MSG_PAISES_EMPTY.getString() + "\n" + MenuText.MSG_NOVO_PAIS.getString(),
+                    MenuText.LBL_TITLE.getString(), JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null,options, options[0]);
+            if ((choice == 0)) telaApp(options[choice], initializeTelas(options[choice]).montarTela());
+            else telaApp(options[choice], new Menu().montarTela());
+            return true;
+        }
+        return false;
+    }
+
     public void addListener(JButton button) {
         button.addActionListener(e -> {
             telaClose(button);
-            telaApp(button.getText(), telas.get(button.getText()).montarTela());
+            if(paisesVazio(button)) return;
+            telaApp(button.getText(), initializeTelas(button.getText()).montarTela() );
         });
+    }
+
+    public MontarTelas initializeTelas(String buttonText) {
+        return switch (MenuText.getEnum(buttonText)) {
+            case BTN_NEW_PAIS -> new AdicionarPais();
+            case BTN_LIST_PAISES -> new ListarPaises();
+            case BTN_NEW_VIZINHO -> new CadastrarVizinho();
+            case BTN_EDIT_PAIS -> new EditarPais();
+            case BTN_DELETE_PAIS -> new DeletarPais();
+            default -> new Menu();
+        };
     }
 }

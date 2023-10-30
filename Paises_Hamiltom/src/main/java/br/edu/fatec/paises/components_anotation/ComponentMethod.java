@@ -1,4 +1,4 @@
-package br.edu.fatec.paises.interfaces.components_anotation;
+package br.edu.fatec.paises.components_anotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
