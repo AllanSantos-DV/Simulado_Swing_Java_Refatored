@@ -1,13 +1,14 @@
 package br.edu.fatec.paises.interfaces.deletar_pais;
 
-import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
-import br.edu.fatec.paises.interfaces.enums.deletar_pais.DeletarPaisText;
-import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.enums.deletar_pais.DeletarPaisText;
+import br.edu.fatec.paises.implementar.MontarTelas;
+import br.edu.fatec.paises.services.deletar_pais.DeletarPaisService;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DeletarPais implements MontarTelas {
+public class DeletarPais extends DeletarPaisService implements MontarTelas {
     private final JLabel lblTitulo = new JLabel();
     private final JLabel lblSelectPais = new JLabel();
     private final JComboBox<String> cmbSelectPais = new JComboBox<>();
@@ -18,6 +19,8 @@ public class DeletarPais implements MontarTelas {
     private static final int COMPONENTS_HEIGHT = 25;
 
     public DeletarPais() {
+        initCmb(cmbSelectPais);
+        btnDeletePais.addActionListener(e -> deletePais(cmbSelectPais, lblDeletePais));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
     }
 
@@ -26,7 +29,7 @@ public class DeletarPais implements MontarTelas {
         lblTitulo.setText(DeletarPaisText.LBL_TITLE.getString());
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setBounds(150, 10, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        lblTitulo.setBounds(50, 10, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblTitulo;
     }
 
@@ -54,7 +57,7 @@ public class DeletarPais implements MontarTelas {
     @ComponentMethod
     public JLabel getLblDeletePais() {
         lblDeletePais.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDeletePais.setBounds(150, 160, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        lblDeletePais.setBounds(50, 160, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblDeletePais;
     }
 

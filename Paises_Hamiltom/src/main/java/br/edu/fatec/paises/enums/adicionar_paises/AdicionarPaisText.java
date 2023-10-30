@@ -1,4 +1,4 @@
-package br.edu.fatec.paises.interfaces.enums.adicionar_paises;
+package br.edu.fatec.paises.enums.adicionar_paises;
 
 public enum AdicionarPaisText {
     LBL_TITLE_REGISTER("Cadastrar País"), LBL_TITLE_EDIT("Editar País"),

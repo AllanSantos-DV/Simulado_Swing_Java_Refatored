@@ -1,8 +1,8 @@
 package br.edu.fatec.paises.interfaces.adicionar_pais;
 
-import br.edu.fatec.paises.interfaces.components_anotation.ComponentMethod;
-import br.edu.fatec.paises.interfaces.enums.adicionar_paises.AdicionarPaisText;
-import br.edu.fatec.paises.interfaces.implementar.MontarTelas;
+import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.enums.adicionar_paises.AdicionarPaisText;
+import br.edu.fatec.paises.implementar.MontarTelas;
 import br.edu.fatec.paises.services.adicionar_pais.AdicionarPaisService;
 
 import javax.swing.*;
@@ -32,7 +32,8 @@ public class AdicionarPais extends AdicionarPaisService implements MontarTelas {
     public JLabel getLblTitulo() {
         lblTitulo.setText(AdicionarPaisText.LBL_TITLE_REGISTER.getString());
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        lblTitulo.setBounds(150, 10, 200, COMPONENTS_HEIGHT);
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitulo.setBounds(50, 10, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
         return lblTitulo;
     }
 

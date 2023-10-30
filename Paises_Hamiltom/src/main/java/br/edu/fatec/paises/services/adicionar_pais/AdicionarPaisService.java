@@ -1,7 +1,7 @@
 package br.edu.fatec.paises.services.adicionar_pais;
 
 import br.edu.fatec.paises.interfaces.adicionar_pais.AdicionarPais;
-import br.edu.fatec.paises.interfaces.enums.adicionar_paises.AdicionarPaisText;
+import br.edu.fatec.paises.enums.adicionar_paises.AdicionarPaisText;
 import br.edu.fatec.paises.models.Pais;
 
 import static br.edu.fatec.paises.Main.paisDAO;
@@ -18,9 +18,9 @@ public class AdicionarPaisService {
     public void adicionarPais(AdicionarPais adicionarPais) {
         String name = adicionarPais.getTxtNome().getText();
         String capital = adicionarPais.getTxtCapital().getText();
-        int size = (int) adicionarPais.getTxtDimensao().getValue();
+        double size = Double.parseDouble(adicionarPais.getTxtDimensao().getValue().toString());
         Pais newPais = new Pais(name, capital, size);
-        if (camposCheck(adicionarPais, newPais)||paisExistente(adicionarPais, newPais)) return;
+        if (camposCheck(adicionarPais, name, capital)||paisExistente(adicionarPais, newPais)) return;
         paisDAO.addPais(newPais);
         limparCampos(adicionarPais);
         labelsalvarPais(adicionarPais, name);
@@ -31,8 +31,8 @@ public class AdicionarPaisService {
     }
 
 
-    public boolean camposCheck(AdicionarPais adicionarPais, Pais newPais) {
-        if(newPais.getNome().isEmpty() || newPais.getCapital().isEmpty()) {
+    public boolean camposCheck(AdicionarPais adicionarPais, String nomePais, String capitalPais) {
+        if(nomePais.isEmpty() || capitalPais.isEmpty()) {
             labelCamposVazios(adicionarPais);
             return true;
         }
@@ -40,7 +40,7 @@ public class AdicionarPaisService {
     }
 
     public boolean paisExistente(AdicionarPais adicionarPais, Pais newPais) {
-        if (paisDAO.getPaises().parallelStream().anyMatch(newPais::equals)) {
+        if (paisDAO.getPaises().contains(newPais)) {
             labelPaisExistente(adicionarPais);
             return true;
         }
