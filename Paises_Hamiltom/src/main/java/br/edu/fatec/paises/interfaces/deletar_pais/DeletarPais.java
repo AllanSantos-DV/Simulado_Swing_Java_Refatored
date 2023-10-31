@@ -19,8 +19,8 @@ public class DeletarPais extends DeletarPaisService implements MontarTelas {
     private static final int COMPONENTS_HEIGHT = 25;
 
     public DeletarPais() {
-        initCmb(cmbSelectPais);
-        btnDeletePais.addActionListener(e -> deletePais(cmbSelectPais, lblDeletePais));
+        initCmb(this);
+        btnDeletePais.addActionListener(e -> deletePais(this));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
     }
 

@@ -1,6 +1,7 @@
 package br.edu.fatec.paises.services.listar_paises;
 
 import br.edu.fatec.paises.enums.listar_paises.ListarPaisesText;
+import br.edu.fatec.paises.interfaces.listar_paises.ListarPaises;
 import br.edu.fatec.paises.models.Pais;
 
 import javax.swing.*;
@@ -13,39 +14,40 @@ import static br.edu.fatec.paises.Main.paisDAO;
 
 public class ListarPaisesService {
 
-    public void listarPaises(JTable table, JLabel lblQtdPaises , DefaultTableModel tableModel) {
+    public void listarPaises(ListarPaises listarPaises) {
         int sizeListPaises = paisDAO.getPaises().size();
-        lblQtdPaises.setText(ListarPaisesText.LBL_QTD_PAISES.getString() + sizeListPaises);
-        setTableModel(table, tableModel, paisDAO.getPaises());
+        listarPaises.getLblQuantityPaises().setText(ListarPaisesText.LBL_QTD_PAISES.getString() + sizeListPaises);
+        setTableModel(listarPaises, paisDAO.getPaises());
     }
 
-    public void listarPaisesOrdenado(JTable table,DefaultTableModel tableModel, String buttonName) {
+    public void listarPaisesOrdenado(ListarPaises listarPaises, String buttonName) {
         List<Pais> paises = new ArrayList<>(paisDAO.getPaises());
         switch (ListarPaisesText.getEnum(buttonName)) {
             case BTN_DIMENSION -> paises.sort(Comparator.comparing(Pais::getDimensao));
             case BTN_CAPITAL -> paises.sort(Comparator.comparing(Pais::getCapital));
             default -> paises.sort(Comparator.comparing(Pais::getNome));
         }
-        setTableModel(table, tableModel, paises);
+        setTableModel(listarPaises, paises);
     }
 
-    public void setTableModel(JTable table,DefaultTableModel tableModel, List<Pais> paises) {
+    public void setTableModel(ListarPaises listarPaises, List<Pais> paises) {
         int sizeColumn = 0;
-        getEditedTableModel(tableModel);
+        getEditedTableModel(listarPaises);
         for (Pais pais : paises){
             StringBuilder vizinhos = new StringBuilder();
-            if (pais.getFronteira().isEmpty()) tableModel.addRow(new Object[]{pais.getNome(), pais.getCapital(), pais.getDimensao(), "Sem Vizinhos"});
+            if (pais.getFronteira().isEmpty()) listarPaises.getTableModel().addRow(new Object[]{pais.getNome(), pais.getCapital(), pais.getDimensao(), "Sem Vizinhos"});
             else {
                 for (Pais paisVizinho : pais.getFronteira()) vizinhos.append(paisVizinho.getNome()).append(", ");
-                tableModel.addRow(new Object[]{pais.getNome(), pais.getCapital(), pais.getDimensao(), vizinhos});
+                listarPaises.getTableModel().addRow(new Object[]{pais.getNome(), pais.getCapital(), pais.getDimensao(), vizinhos});
             }
             if(vizinhos.length()>sizeColumn) sizeColumn = vizinhos.length();
         }
-        getEditedTable(table, sizeColumn);
+        getEditedTable(listarPaises, sizeColumn);
     }
 
-    public void getEditedTable(JTable table, int sizecolumn){
+    public void getEditedTable(ListarPaises listarPaises, int sizecolumn){
         int preferredWidth = 140;
+        JTable table = listarPaises.getTable();
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         for (int i = 0; i < table.getColumnCount()-1; i++) {
             table.getColumnModel().getColumn(i).setPreferredWidth(preferredWidth);
@@ -54,7 +56,8 @@ public class ListarPaisesService {
         table.updateUI();
     }
 
-    public void getEditedTableModel(DefaultTableModel tableModel) {
+    public void getEditedTableModel(ListarPaises listarPaises) {
+        DefaultTableModel tableModel = listarPaises.getTableModel();
         tableModel.setRowCount(0);
         tableModel.setColumnCount(0);
         tableModel.addColumn(ListarPaisesText.BTN_NOME.getString());

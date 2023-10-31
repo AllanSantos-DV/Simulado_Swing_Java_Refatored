@@ -7,7 +7,7 @@ public enum AdicionarPaisText {
     LBL_NOME("Nome:"), LBL_CAPITAL("Capital:"), LBL_DIMENSION("Dimensao:"),
     BTN_SAVE("Salvar"), BTN_MENU("Menu");
 
-    private String string;
+    private final String string;
 
     AdicionarPaisText(String string) {
         this.string = string;

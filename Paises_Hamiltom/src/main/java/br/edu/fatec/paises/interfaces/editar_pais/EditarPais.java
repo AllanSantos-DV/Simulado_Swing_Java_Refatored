@@ -21,11 +21,11 @@ public class EditarPais extends EditarPaisService implements MontarTelas {
     private static final int COMPONENTS_HEIGHT = 25;
 
     public EditarPais() {
-        initCmbPais(cmbSelectPais, cmbSelectVizinho, btnDeleteVizinho);
-        cmbSelectPais.addActionListener(e -> initCmbVizinho(cmbSelectVizinho, cmbSelectPais, btnDeleteVizinho));
+        initCmbPais(this);
+        cmbSelectPais.addActionListener(e -> initCmbVizinho(this));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
-        btnEditPais.addActionListener(e -> editarPais(cmbSelectPais, btnEditPais));
-        btnDeleteVizinho.addActionListener(e -> deleteVizinho(lblDeleteVizinho, cmbSelectPais, cmbSelectVizinho, btnDeleteVizinho));
+        btnEditPais.addActionListener(e -> editarPais(this));
+        btnDeleteVizinho.addActionListener(e -> deleteVizinho(this));
     }
 
     @ComponentMethod
@@ -33,7 +33,7 @@ public class EditarPais extends EditarPaisService implements MontarTelas {
         lblTitulo.setText(EditarPaisText.LBL_TITLE.getString());
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setBounds(50, 10, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
+        lblTitulo.setBounds(50, 10, COMPONENTS_WIDTH * 2, COMPONENTS_HEIGHT);
         return lblTitulo;
     }
 
@@ -67,7 +67,7 @@ public class EditarPais extends EditarPaisService implements MontarTelas {
     @ComponentMethod
     public JLabel getLblDeleteVizinho() {
         lblDeleteVizinho.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDeleteVizinho.setBounds(50, 150, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
+        lblDeleteVizinho.setBounds(50, 150, COMPONENTS_WIDTH * 2, COMPONENTS_HEIGHT);
         return lblDeleteVizinho;
     }
 

@@ -18,21 +18,21 @@ import static br.edu.fatec.paises.Main.paisDAO;
 
 public class EditarPaisService {
 
-    protected void initCmbPais(JComboBox<String> cmbPais, JComboBox<String> cmbVizinhos, JButton button) {
-        cmbPais.removeAllItems();
-        for (Pais pais: paisDAO.getPaises()) cmbPais.addItem(pais.getNome());
-        initCmbVizinho(cmbVizinhos, cmbPais, button);
+    protected void initCmbPais(EditarPais editarPais) {
+        editarPais.getCmbSelectPais().removeAllItems();
+        for (Pais pais: paisDAO.getPaises()) editarPais.getCmbSelectPais().addItem(pais.getNome());
+        initCmbVizinho(editarPais);
     }
 
-    protected void initCmbVizinho(JComboBox<String> cmbVizinho, JComboBox<String> cmbPais, JButton button) {
-        if (cmbPais.getSelectedItem() == null) return;
-        cmbVizinho.removeAllItems();
-        Pais paisSelected = paisDAO.getPaises().get(cmbPais.getSelectedIndex());
-        for (String vizinho : getVizinhos(paisSelected, cmbVizinho, button)) cmbVizinho.addItem(vizinho);
+    protected void initCmbVizinho(EditarPais editarPais) {
+        if (editarPais.getCmbSelectPais().getSelectedItem() == null) return;
+        editarPais.getCmbSelectVizinho().removeAllItems();
+        Pais paisSelected = paisDAO.getPaises().get(editarPais.getCmbSelectPais().getSelectedIndex());
+        for (String vizinho : getVizinhos(paisSelected, editarPais)) editarPais.getCmbSelectVizinho().addItem(vizinho);
     }
 
-    protected List<String> getVizinhos(Pais paisSelected, JComboBox<String> cmbVizinhos, JButton button) {
-        if (checkVizinhos(paisSelected,cmbVizinhos, button)){
+    protected List<String> getVizinhos(Pais paisSelected, EditarPais editarPais) {
+        if (checkVizinhos(paisSelected,editarPais)){
             return List.of(EditarPaisText.LBL_ERROR_EMPTY_VIZINHOS.getString());
         }
         List<String> vizinhos = new ArrayList<>();
@@ -40,61 +40,61 @@ public class EditarPaisService {
         return vizinhos;
     }
 
-    protected boolean checkVizinhos(Pais paisSelected, JComboBox<String> cmbVizinho, JButton button) {
+    protected boolean checkVizinhos(Pais paisSelected, EditarPais editarPais) {
         if (paisSelected.getFronteira().isEmpty()) {
-            cmbVizinho.setEnabled(false);
-            button.setEnabled(false);
+            editarPais.getCmbSelectVizinho().setEnabled(false);
+            editarPais.getBtnDeleteVizinho().setEnabled(false);
             return true;
         }
-        cmbVizinho.setEnabled(true);
-        button.setEnabled(true);
+        editarPais.getCmbSelectVizinho().setEnabled(true);
+        editarPais.getBtnDeleteVizinho().setEnabled(true);
         return false;
     }
 
-    public void editarPais(JComboBox<String> cmbPais, JButton button) {
-        Pais pais = paisDAO.getPaises().get(cmbPais.getSelectedIndex());
+    public void editarPais(EditarPais editarPais) {
+        Pais pais = paisDAO.getPais(Objects.requireNonNull(editarPais.getCmbSelectPais().getSelectedItem()).toString());
         AdicionarPais adicionarPais = new AdicionarPais();
         MenuServices menuServices = new MenuServices();
-        updateFrame(adicionarPais, menuServices, button);
+        updateFrame(adicionarPais, menuServices, editarPais);
         editPaisPanel(adicionarPais, pais);
     }
 
-    public void updateFrame(AdicionarPais adicionarPais,MenuServices menuServices, JButton button){
-        menuServices.telaClose(button);
-        menuServices.telaApp(button.getText(), adicionarPais.montarTela());
+    public void updateFrame(AdicionarPais adicionarPais,MenuServices menuServices, EditarPais editarPais){
+        menuServices.telaClose(editarPais.getBtnEditPais());
+        menuServices.telaApp(editarPais.getBtnEditPais().getText(), adicionarPais.montarTela());
     }
 
     public void editPaisPanel(AdicionarPais adicionarPais, Pais pais){
-        JButton button = adicionarPais.getBtnSalvar();
-        ActionListener listenerSalvarPais = Arrays.stream(button.getActionListeners()).iterator().next();
+        JButton adicionarPaisBtnSalvar = adicionarPais.getBtnSalvar();
+        ActionListener listenerSalvarPais = Arrays.stream(adicionarPaisBtnSalvar.getActionListeners()).iterator().next();
         adicionarPais.getLblTitulo().setHorizontalAlignment(SwingConstants.CENTER);
         adicionarPais.getLblTitulo().setText(EditarPaisText.LBL_TITLE.getString());
         adicionarPais.getTxtNome().setText(pais.getNome());
         adicionarPais.getTxtCapital().setText(pais.getCapital());
         adicionarPais.getTxtDimensao().setValue(pais.getDimensao());
-        button.setText(EditarPaisText.BTN_EDIT_PAIS.getString());
-        button.removeActionListener(listenerSalvarPais);
-        ActionListener listenerEditarPais = e -> savePaisEdited(button ,listenerSalvarPais,adicionarPais, pais);
-        button.addActionListener(listenerEditarPais);
+        adicionarPaisBtnSalvar.setText(EditarPaisText.BTN_EDIT_PAIS.getString());
+        adicionarPaisBtnSalvar.removeActionListener(listenerSalvarPais);
+        ActionListener listenerEditarPais = e -> savePaisEdited(adicionarPaisBtnSalvar ,listenerSalvarPais,adicionarPais, pais);
+        adicionarPaisBtnSalvar.addActionListener(listenerEditarPais);
     }
 
-    public void savePaisEdited(JButton button, ActionListener listener,AdicionarPais adicionarPais, Pais pais){
+    public void savePaisEdited(JButton adicionarPaisBtnSalvar, ActionListener listener,AdicionarPais adicionarPais, Pais pais){
         String nome = adicionarPais.getTxtNome().getText();
         String capital = adicionarPais.getTxtCapital().getText();
         double dimensao = Double.parseDouble(adicionarPais.getTxtDimensao().getValue().toString());
         Pais newPais = new Pais(nome, capital, dimensao);
         if (camposCheck(adicionarPais, nome, capital)||paisExistente(adicionarPais, newPais, pais)) return;
         paisDAO.editPais(pais.getNome(), nome, capital, dimensao);
-        button.removeActionListener(adicionarPais.getBtnSalvar().getActionListeners()[0]);
-        button.addActionListener(listener);
-        telaEditarPais(button);
+        adicionarPaisBtnSalvar.removeActionListener(adicionarPais.getBtnSalvar().getActionListeners()[0]);
+        adicionarPaisBtnSalvar.addActionListener(listener);
+        telaEditarPais(adicionarPaisBtnSalvar);
         JOptionPane.showMessageDialog(null, String.format(EditarPaisText.LBL_SUCCESS_TEXT.getString(), pais.getNome()));
     }
 
-    public void telaEditarPais(JButton button){
+    public void telaEditarPais(JButton adicionarPaisBtnSalvar){
         EditarPais newInstance = new EditarPais();
-        menuServices.telaClose(button);
-        menuServices.telaApp(button.getText(), newInstance.montarTela());
+        menuServices.telaClose(adicionarPaisBtnSalvar);
+        menuServices.telaApp(adicionarPaisBtnSalvar.getText(), newInstance.montarTela());
     }
 
     public boolean camposCheck(AdicionarPais adicionarPais, String nomePais, String capitalPais) {
@@ -115,12 +115,12 @@ public class EditarPaisService {
         return false;
     }
 
-    public void deleteVizinho(JLabel lbJLabel, JComboBox<String> cmbPais, JComboBox<String> cmbVizinho, JButton button) {
-        Pais paisSelected = paisDAO.getPais(Objects.requireNonNull(cmbPais.getSelectedItem()).toString());
-        Pais vizinhoSelected = paisDAO.getPais(Objects.requireNonNull(cmbVizinho.getSelectedItem()).toString());
+    public void deleteVizinho(EditarPais editarPais) {
+        Pais paisSelected = paisDAO.getPais(Objects.requireNonNull(editarPais.getCmbSelectPais().getSelectedItem()).toString());
+        Pais vizinhoSelected = paisDAO.getPais(Objects.requireNonNull(editarPais.getCmbSelectVizinho().getSelectedItem()).toString());
         paisSelected.getFronteira().remove(vizinhoSelected);
         vizinhoSelected.getFronteira().remove(paisSelected);
-        initCmbVizinho(cmbVizinho, cmbPais, button);
-        lbJLabel.setText(String.format(EditarPaisText.LBL_DELETE_VIZINHO.getString(), vizinhoSelected.getNome()));
+        initCmbVizinho(editarPais);
+        editarPais.getLblDeleteVizinho().setText(String.format(EditarPaisText.LBL_DELETE_VIZINHO.getString(), vizinhoSelected.getNome()));
     }
 }
