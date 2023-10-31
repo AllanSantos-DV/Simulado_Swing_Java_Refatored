@@ -21,14 +21,13 @@ public class ListarPaises extends ListarPaisesService implements MontarTelas {
     private final JTable table = new JTable(tableModel);
     private final JScrollPane scrollPane = new JScrollPane(table);
     private final JButton btnMenu = new JButton();
-
     private static final int COMPONENTS_WIDTH = 200;
     private static final int COMPONENTS_HEIGHT = 24;
 
     public ListarPaises() {
-        listarPaises(table, lblQuantityPaises, tableModel);
-        Stream.of(btnListarNome, btnListarDimensao, btnListarNomeCapital, btnMenu)
-                .forEach(btn -> btn.addActionListener(e -> listarPaisesOrdenado(table, tableModel, btn.getText())));
+        listarPaises(this);
+        Stream.of(btnListarNome, btnListarDimensao, btnListarNomeCapital)
+                .forEach(btn -> btn.addActionListener(e -> listarPaisesOrdenado(this, btn.getText())));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
     }
 
@@ -77,9 +76,17 @@ public class ListarPaises extends ListarPaisesService implements MontarTelas {
         return btnListarDimensao;
     }
 
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public JTable getTable() {
+        table.setEnabled(false);
+        return table;
+    }
+
     @ComponentMethod
     public JScrollPane getTxtAreaPaisesComScroll() {
-        table.setEnabled(false);
         scrollPane.setBounds(25, 77, COMPONENTS_WIDTH*2+35, COMPONENTS_HEIGHT * 6);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

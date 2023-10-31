@@ -22,10 +22,10 @@ public class CadastrarVizinho extends CadastrarVizinhoService implements MontarT
     private static final int COMPONENTS_HEIGHT = 25;
 
     public CadastrarVizinho() {
-        updateCombs(cmbPais, cmbVizinho, btnSelecionar);
-        cmbPais.addActionListener(e -> updateCmbVizinhoPaisChange(btnSelecionar,cmbPais, cmbVizinho));
-        btnCadastrar.addActionListener(e -> addPaisesSelected(lblSuccess, cmbPais));
-        btnSelecionar.addActionListener(e -> selecionarVizinho(lblSuccess, cmbPais, cmbVizinho, btnSelecionar));
+        updateCombs(this);
+        cmbPais.addActionListener(e -> updateCmbVizinhoPaisChange(this));
+        btnCadastrar.addActionListener(e -> addPaisesSelected(this));
+        btnSelecionar.addActionListener(e -> selecionarVizinho(this));
         btnMenu.addActionListener(e -> voltarMenu(btnMenu));
     }
 

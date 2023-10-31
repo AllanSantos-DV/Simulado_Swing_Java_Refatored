@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PaisDAO {
-
     private final List<Pais> paisListOrdered = new LinkedList<>();
     private final Map<String, Pais> paises = new LinkedHashMap<>();
     public PaisDAO(){
