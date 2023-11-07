@@ -1,9 +1,9 @@
-package br.edu.fatec.paises.telas;
+package br.edu.fatec.paises.app_screens_and_controls.screens;
 
-import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.NeighborRegistrationText;
-import br.edu.fatec.paises.implementar.PanelSettings;
-import br.edu.fatec.paises.telas.controller.NeighboringCountryRegistration;
+import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
+import br.edu.fatec.paises.app_screens_and_controls.controller.NeighboringCountryRegistration;
 
 import javax.swing.*;
 import java.awt.*;

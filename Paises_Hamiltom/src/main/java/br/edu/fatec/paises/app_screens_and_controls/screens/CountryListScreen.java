@@ -1,9 +1,9 @@
-package br.edu.fatec.paises.telas;
+package br.edu.fatec.paises.app_screens_and_controls.screens;
 
-import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.CountryListText;
-import br.edu.fatec.paises.implementar.PanelSettings;
-import br.edu.fatec.paises.telas.controller.CountryList;
+import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
+import br.edu.fatec.paises.app_screens_and_controls.controller.CountryList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -57,21 +57,21 @@ public class CountryListScreen extends CountryList implements PanelSettings {
 
     @ComponentMethod
     public JButton getBtnListNameCountry() {
-        btnListNameCountry.setText(CountryListText.BTN_NAME.getString());
+        btnListNameCountry.setText(CountryListText.BTN_ORDERING_NAME.getString());
         btnListNameCountry.setBounds(120, 38, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
         return btnListNameCountry;
     }
 
     @ComponentMethod
     public JButton getBtnListCapitalCountry(){
-        btnListCapitalCountry.setText(CountryListText.BTN_CAPITAL.getString());
+        btnListCapitalCountry.setText(CountryListText.BTN_ORDERING_CAPITAL.getString());
         btnListCapitalCountry.setBounds(220, 38, COMPONENTS_WIDTH/2, COMPONENTS_HEIGHT);
         return btnListCapitalCountry;
     }
 
     @ComponentMethod
     public JButton getBtnListDimensionCountry() {
-        btnListDimensionCountry.setText(CountryListText.BTN_DIMENSION.getString());
+        btnListDimensionCountry.setText(CountryListText.BTN_ORDERING_DIMENSION.getString());
         btnListDimensionCountry.setBounds(320, 38, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
         return btnListDimensionCountry;
     }

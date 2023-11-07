@@ -1,9 +1,9 @@
-package br.edu.fatec.paises.telas.controller;
+package br.edu.fatec.paises.app_screens_and_controls.controller;
 
 import br.edu.fatec.paises.enums.CountryRegistrationText;
-import br.edu.fatec.paises.implementar.PanelSettings;
+import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
 import br.edu.fatec.paises.models.Country;
-import br.edu.fatec.paises.telas.CountryRegistrationScreen;
+import br.edu.fatec.paises.app_screens_and_controls.screens.CountryRegistrationScreen;
 
 import javax.swing.*;
 import java.util.LinkedHashMap;
@@ -15,37 +15,37 @@ import static br.edu.fatec.paises.Main.COUNTRY_DAO;
 
 public class CountryRegistration {
 
-    public void backMenu(CountryRegistrationScreen countryRegistrationScreen, PanelSettings panel) {
-        String name = countryRegistrationScreen.getTxtName().getText();
-        String capital = countryRegistrationScreen.getTxtCapital().getText();
-        String dimension = Double.parseDouble(countryRegistrationScreen.getTxtDimension().getValue().toString()) == 0 ? "" : countryRegistrationScreen.getTxtDimension().getValue().toString();
+    public void backMenu(CountryRegistrationScreen cRS, PanelSettings panel) {
+        String name = cRS.getTxtName().getText();
+        String capital = cRS.getTxtCapital().getText();
+        String dimension = Double.parseDouble(cRS.getTxtDimension().getValue().toString()) == 0 ? "" : cRS.getTxtDimension().getValue().toString();
         boolean fieldsEmpty = Stream.of(name, capital, dimension).allMatch(String::isEmpty);
-        if (!fieldsEmpty && panel.confirmBackMenu()) panel.backMenu(countryRegistrationScreen.getBtnMenu());
-        if (fieldsEmpty) panel.backMenu(countryRegistrationScreen.getBtnMenu());
+        if (!fieldsEmpty && panel.confirmBackMenu()) panel.backMenu(cRS.getBtnMenu());
+        if (fieldsEmpty) panel.backMenu(cRS.getBtnMenu());
     }
 
-    public void clearFields(CountryRegistrationScreen countryRegistrationScreen) {
-        countryRegistrationScreen.getTxtName().setText("");
-        countryRegistrationScreen.getTxtCapital().setText("");
-        countryRegistrationScreen.getTxtDimension().setValue(0);
-        countryRegistrationScreen.getLblSuccess().setText("");
+    public void clearFields(CountryRegistrationScreen cRS) {
+        cRS.getTxtName().setText("");
+        cRS.getTxtCapital().setText("");
+        cRS.getTxtDimension().setValue(0);
+        cRS.getLblSuccess().setText("");
     }
 
-    public void addCountry(CountryRegistrationScreen countryRegistrationScreen) {
-        String name = countryRegistrationScreen.getTxtName().getText();
-        String capital = countryRegistrationScreen.getTxtCapital().getText();
-        double dimension = Double.parseDouble(countryRegistrationScreen.getTxtDimension().getValue().toString());
+    public void addCountry(CountryRegistrationScreen cRS) {
+        String name = cRS.getTxtName().getText();
+        String capital = cRS.getTxtCapital().getText();
+        double dimension = Double.parseDouble(cRS.getTxtDimension().getValue().toString());
         Country newCountry = new Country(name, capital, dimension);
-        if (checkCreateEditCountry(countryRegistrationScreen, COUNTRY_DAO.getCountries(), newCountry)) return;
-        COUNTRY_DAO.addCountry(newCountry);
-        clearFields(countryRegistrationScreen);
-        labelSaveCountry(countryRegistrationScreen, name);
+        if (checkCreateEditCountry(cRS, COUNTRY_DAO.findAll(), newCountry)) return;
+        COUNTRY_DAO.save(newCountry);
+        clearFields(cRS);
+        labelSaveCountry(cRS, name);
     }
 
-    public static boolean checkCreateEditCountry(CountryRegistrationScreen countryRegistrationScreen, List<Country> countries, Country newCountry){
-        return Stream.of(checkFields(countryRegistrationScreen.getLblSuccess(), newCountry)
-        , countryExists(countryRegistrationScreen.getLblSuccess(), countries, newCountry))
-                .anyMatch(Boolean::booleanValue) || !confirmCreateEditCountry(countryRegistrationScreen.getLblSuccess(), newCountry);
+    public static boolean checkCreateEditCountry(CountryRegistrationScreen cRS, List<Country> countries, Country newCountry){
+        return Stream.of(checkFields(cRS.getLblSuccess(), newCountry)
+        , countryExists(cRS.getLblSuccess(), countries, newCountry))
+                .anyMatch(Boolean::booleanValue) || !confirmCreateEditCountry(cRS.getLblSuccess(), newCountry);
     }
 
     public static boolean confirmCreateEditCountry(JLabel lblSuccess, Country country){
@@ -53,18 +53,18 @@ public class CountryRegistration {
         String name = country.getName();
         String capital = country.getCapital();
         double dimension = country.getDimension();
-        String[] options = {CountryRegistrationText.BTN_SAVE.getString(), CountryRegistrationText.BTN_CANCEL.getString()};
+        String[] options = {CountryRegistrationText.BTN_OPTION_PANE_SAVE.getString(), CountryRegistrationText.BTN_OPTION_PANE_CANCEL.getString()};
         int confirm = JOptionPane.showInternalOptionDialog(
                 null, CountryRegistrationText.LBL_NAME.getString() + name +
                         "\n" + CountryRegistrationText.LBL_CAPITAL.getString() + capital +
                         "\n" + CountryRegistrationText.LBL_DIMENSION.getString() + dimension,
-                CountryRegistrationText.LBL_TITLE_PANE_CONFIRM.getString(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                CountryRegistrationText.LBL_OPTION_PANE_TITLE_CONFIRM.getString(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, options[0]);
         return confirm == JOptionPane.YES_OPTION;
     }
 
-    public void labelSaveCountry(CountryRegistrationScreen countryRegistrationScreen, String name) {
-        countryRegistrationScreen.getLblSuccess().setText(String.format(CountryRegistrationText.LBL_SUCCESS_TEXT.getString(), name));
+    public void labelSaveCountry(CountryRegistrationScreen cRS, String name) {
+        cRS.getLblSuccess().setText(String.format(CountryRegistrationText.LBL_SUCCESS_TEXT.getString(), name));
     }
 
     public static boolean checkFields(JLabel lblSuccess, Country newCountry){
