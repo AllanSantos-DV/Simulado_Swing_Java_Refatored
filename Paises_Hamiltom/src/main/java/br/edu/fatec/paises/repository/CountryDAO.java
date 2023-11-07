@@ -10,34 +10,37 @@ import java.util.Map;
 public class CountryDAO {
     private static final List<Country> COUNTRY_LIST_ORDERED = new LinkedList<>();
     private static final Map<String, Country> COUNTRIES = new LinkedHashMap<>();
+
+    // Constructors
+
     public CountryDAO(){
-        addCountry("Brasil", "Brasilia", 8516000);
-        addCountry("Argentina", "Buenos Aires", 2780000);
-        addCountry("Uruguai", "Montevidéu", 176000);
-        addCountry("Paraguai", "Assunção", 406752);
-        addCountry("Bolívia", "Sucre", 1098581);
-        addCountry("Peru", "Lima", 1285216);
-        addCountry("Colômbia", "Bogotá", 1141748);
-        addCountry("Venezuela", "Caracas", 916445);
-        addCountry("Guiana", "Georgetown", 214969);
-        addCountry("Suriname", "Paramaribo", 163820);
-        addCountry("Guiana Francesa", "Caiena", 83534);
-        addCountry("Equador", "Quito", 283561);
-        addCountry("Chile", "Santiago", 756102);
-        addCountry("Ilhas Malvinas", "Stanley", 12173);
+        save("Brasil", "Brasilia", 8516000);
+        save("Argentina", "Buenos Aires", 2780000);
+        save("Uruguai", "Montevidéu", 176000);
+        save("Paraguai", "Assunção", 406752);
+        save("Bolívia", "Sucre", 1098581);
+        save("Peru", "Lima", 1285216);
+        save("Colômbia", "Bogotá", 1141748);
+        save("Venezuela", "Caracas", 916445);
+        save("Guiana", "Georgetown", 214969);
+        save("Suriname", "Paramaribo", 163820);
+        save("Guiana Francesa", "Caiena", 83534);
+        save("Equador", "Quito", 283561);
+        save("Chile", "Santiago", 756102);
+        save("Ilhas Malvinas", "Stanley", 12173);
     }
 
-    private void addCountry(String name, String capital, double dimension) {
-        addCountry(new Country(name, capital, dimension));
+    private void save(String name, String capital, double dimension) {
+        save(new Country(name, capital, dimension));
     }
 
-    public void addCountry(Country country) {
+    public void save(Country country) {
         COUNTRIES.put(country.getName(), country);
         COUNTRY_LIST_ORDERED.add(country);
     }
 
-    public void editCountry(String nameOldCountry, Country country) {
-        Country oldCountry = COUNTRIES.remove(nameOldCountry);
+    public void editCountry(String oldCountryName, Country country) {
+        Country oldCountry = COUNTRIES.remove(oldCountryName);
         Country newCountry = new Country(country.getName(), country.getCapital(), country.getDimension());
         if (!oldCountry.getFrontier().isEmpty()) {
             newCountry.setFrontier(oldCountry.getFrontier());
@@ -47,16 +50,16 @@ public class CountryDAO {
         COUNTRY_LIST_ORDERED.set(COUNTRY_LIST_ORDERED.indexOf(oldCountry), newCountry);
     }
 
-    public void removeCountry(String country) {
-        Country oldCountry = COUNTRIES.remove(country);
+    public void deleteByName(String countryName) {
+        Country oldCountry = COUNTRIES.remove(countryName);
         COUNTRY_LIST_ORDERED.remove(oldCountry);
     }
 
-    public Country getCountry(String country) {
-        return COUNTRIES.get(country);
+    public Country findByName(String countryName) {
+        return COUNTRIES.get(countryName);
     }
 
-    public List<Country> getCountries() {
+    public List<Country> findAll() {
         return COUNTRY_LIST_ORDERED;
     }
 }

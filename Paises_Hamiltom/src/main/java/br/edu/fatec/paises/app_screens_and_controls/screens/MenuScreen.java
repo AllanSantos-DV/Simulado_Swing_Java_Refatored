@@ -1,26 +1,25 @@
-package br.edu.fatec.paises.telas;
+package br.edu.fatec.paises.app_screens_and_controls.screens;
 
-import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.MenuText;
-import br.edu.fatec.paises.implementar.PanelSettings;
-import br.edu.fatec.paises.telas.controller.Menu;
+import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
+import br.edu.fatec.paises.app_screens_and_controls.controller.Menu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.stream.Stream;
 
-public class CountryMenuScreen extends Menu implements PanelSettings {
+public class MenuScreen extends Menu implements PanelSettings {
     private final JLabel lblTitle = new JLabel();
     private final JButton btnRegisterCountry = new JButton(MenuText.BTN_NEW_COUNTRY.getString());
-    private final JButton btnRegisterNeighborCountry = new JButton(MenuText.BTN_NEW_NEIGHBOR.getString());
-    private final JButton btnEditCountry = new JButton(MenuText.BTN_EDIT_COUNTRY.getString());
+    private final JButton btnRegisterNeighborCountry = new JButton(MenuText.BTN_REGISTER_NEIGHBOR.getString());
+    private final JButton btnEditCountry = new JButton(MenuText.BTN_MANAGE_COUNTRY.getString());
     private final JButton btnListCountries = new JButton(MenuText.BTN_LIST_COUNTRIES.getString());
-    private final JButton btnDeleteCountry = new JButton(MenuText.BTN_DELETE_COUNTRY.getString());
     private static final int COMPONENTS_WIDTH = 150;
     private static final int COMPONENTS_HEIGHT = 30;
 
-    public CountryMenuScreen() {
-        Stream.of(btnRegisterCountry, btnRegisterNeighborCountry, btnEditCountry, btnListCountries, btnDeleteCountry)
+    public MenuScreen() {
+        Stream.of(btnRegisterCountry, btnRegisterNeighborCountry, btnEditCountry, btnListCountries)
                 .forEach(this::addListener);
     }
 
@@ -55,11 +54,5 @@ public class CountryMenuScreen extends Menu implements PanelSettings {
     public JButton getBtnListCountries() {
         btnListCountries.setBounds(270, 140, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
         return btnListCountries;
-    }
-
-    @ComponentMethod
-    public JButton getBtnDeleteCountry() {
-        btnDeleteCountry.setBounds(170, 180, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
-        return btnDeleteCountry;
     }
 }

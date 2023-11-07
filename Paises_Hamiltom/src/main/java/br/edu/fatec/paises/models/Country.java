@@ -12,20 +12,15 @@ public class Country {
     private final double dimension;
     private final List<Country> frontier = new ArrayList<>();
 
+    // Constructors
+
     public Country(String name, String capital, double dimension) {
         this.name = name;
         this.capital = capital;
         this.dimension = dimension;
     }
 
-    public String toString() {
-        StringBuilder countryName = new StringBuilder(CountryText.PRINT_FRONTIER.getString());
-        if (frontier.isEmpty())
-            return String.format(CountryText.PRINT_COUNTRY.getString(), name, capital, dimension);
-        for (Country country : frontier) countryName.append(country.getName()).append(", ");
-        String countryAndFrontier = CountryText.PRINT_COUNTRY.getString() + "%s";
-        return String.format(countryAndFrontier, name, capital, dimension, countryName);
-    }
+    // Equals and HashCode
 
     @Override
     public boolean equals(Object o) {
@@ -39,6 +34,8 @@ public class Country {
     public int hashCode() {
         return Objects.hash(name, capital);
     }
+
+    // Getters and Setters
 
     public String getName() {
         return name;
@@ -58,5 +55,16 @@ public class Country {
 
     public void setFrontier(List<Country> frontier) {
         this.frontier.addAll(frontier);
+    }
+
+    // toString
+
+    public String toString() {
+        StringBuilder countryName = new StringBuilder(CountryText.PRINT_FRONTIER.getString());
+        if (frontier.isEmpty())
+            return String.format(CountryText.PRINT_COUNTRY.getString(), name, capital, dimension);
+        for (Country country : frontier) countryName.append(country.getName()).append(", ");
+        String countryAndFrontier = CountryText.PRINT_COUNTRY.getString() + "%s";
+        return String.format(countryAndFrontier, name, capital, dimension, countryName);
     }
 }

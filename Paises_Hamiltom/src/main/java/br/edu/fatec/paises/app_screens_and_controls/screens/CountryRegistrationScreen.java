@@ -1,12 +1,13 @@
-package br.edu.fatec.paises.telas;
+package br.edu.fatec.paises.app_screens_and_controls.screens;
 
-import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.CountryRegistrationText;
-import br.edu.fatec.paises.implementar.PanelSettings;
-import br.edu.fatec.paises.telas.controller.CountryRegistration;
+import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
+import br.edu.fatec.paises.app_screens_and_controls.controller.CountryRegistration;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.stream.Stream;
 
 public class CountryRegistrationScreen extends CountryRegistration implements PanelSettings {
     private final JLabel lblTitle = new JLabel();
@@ -18,6 +19,8 @@ public class CountryRegistrationScreen extends CountryRegistration implements Pa
     private final JSpinner txtDimension = new JSpinner();
     private final JLabel lblSuccess = new JLabel();
     private final JButton btnSave = new JButton();
+    private final JButton btnEdit = new JButton();
+    private final JButton btnCancel = new JButton();
     private final JButton btnMenu = new JButton();
     private static final int COMPONENTS_WIDTH = 200;
     private static final int COMPONENTS_HEIGHT = 25;
@@ -26,6 +29,7 @@ public class CountryRegistrationScreen extends CountryRegistration implements Pa
     public CountryRegistrationScreen() {
         btnSave.addActionListener(e -> addCountry(this));
         btnMenu.addActionListener(e -> backMenu(this, this));
+        Stream.of(btnEdit, btnCancel).forEach(btn -> btn.setVisible(false));
     }
 
     @ComponentMethod
@@ -33,7 +37,7 @@ public class CountryRegistrationScreen extends CountryRegistration implements Pa
         lblTitle.setText(CountryRegistrationText.LBL_TITLE_REGISTER.getString());
         lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitle.setBounds(50, 10, COMPONENTS_WIDTH*2, COMPONENTS_HEIGHT);
+        lblTitle.setBounds(50, 10, COMPONENTS_WIDTH * 2, COMPONENTS_HEIGHT);
         return lblTitle;
     }
 
@@ -94,9 +98,23 @@ public class CountryRegistrationScreen extends CountryRegistration implements Pa
     }
 
     @ComponentMethod
+    public JButton getBtnEdit() {
+        btnEdit.setText(CountryRegistrationText.BTN_EDIT_COUNTRY.getString());
+        btnEdit.setBounds(125, 210, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
+        return btnEdit;
+    }
+
+    @ComponentMethod
     public JButton getBtnMenu() {
         btnMenu.setText(CountryRegistrationText.BTN_MENU.getString());
         btnMenu.setBounds(275, 210, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
         return btnMenu;
+    }
+
+    @ComponentMethod
+    public JButton getBtnCancel() {
+        btnCancel.setText(CountryRegistrationText.BTN_CANCEL_EDIT.getString());
+        btnCancel.setBounds(275, 210, COMPONENTS_WIDTH / 2, COMPONENTS_HEIGHT);
+        return btnCancel;
     }
 }

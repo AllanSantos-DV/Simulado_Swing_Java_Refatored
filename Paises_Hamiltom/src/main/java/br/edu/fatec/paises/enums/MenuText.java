@@ -4,10 +4,9 @@ import java.util.Arrays;
 
 public enum MenuText {
     LBL_TITLE("Bem vindo ao Gerenciador de Países!"), BTN_NEW_COUNTRY("Adicionar País"),
-    BTN_NEW_NEIGHBOR("Cadastrar Vizinho"), BTN_EDIT_COUNTRY("Editar País"),
-    BTN_LIST_COUNTRIES("Listar Países"), BTN_DELETE_COUNTRY("Deletar País"),
-    MSG_COUNTRIES_EMPTY("Não há países cadastrados!"),
-    MSG_NEW_COUNTRY("Deseja Cadastrar um novo Country?"), BTN_MENU("Menu");
+    BTN_REGISTER_NEIGHBOR("Cadastrar Vizinho"), BTN_MANAGE_COUNTRY("Gerenciar País"),
+    BTN_LIST_COUNTRIES("Listar Países"), MSG_OPTION_PANE_COUNTRIES_EMPTY("Não há países cadastrados!"),
+    MSG_OPTION_PANE_NEW_COUNTRY("Deseja Cadastrar um novo Pais?"), BTN_OPTION_PANE_MENU("Menu");
 
     private final String string;
 

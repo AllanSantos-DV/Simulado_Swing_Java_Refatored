@@ -1,8 +1,8 @@
-package br.edu.fatec.paises.implementar;
+package br.edu.fatec.paises.app_screens_and_controls.implementar;
 
-import br.edu.fatec.paises.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.PanelSettingsText;
-import br.edu.fatec.paises.telas.CountryMenuScreen;
+import br.edu.fatec.paises.app_screens_and_controls.screens.MenuScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public interface PanelSettings {
 
     default void backMenu(JButton button) {
         MENU.closeScreen(button);
-        MENU.appScreen(PanelSettingsText.TELA_MENU.getString(), new CountryMenuScreen().mountScreen());
+        MENU.appScreen(PanelSettingsText.TELA_MENU.getString(), new MenuScreen().mountScreen());
     }
 
     default boolean confirmBackMenu(){
