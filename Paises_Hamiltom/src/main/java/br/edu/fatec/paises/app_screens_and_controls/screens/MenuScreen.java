@@ -72,7 +72,7 @@ public class MenuScreen extends Menu implements PanelSettings {
     }
 
     @ComponentMethod
-    public JLabel getCredits() {
+    public JLabel getDevelopers() {
         credits.setText(MenuText.LBL_DEVELOPERS.getString());
         credits.setBounds(10, 200, COMPONENTS_WIDTH * 3, COMPONENTS_HEIGHT);
         credits.setFont(new Font(TYPE_FONT, Font.BOLD, 15));
