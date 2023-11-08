@@ -2,6 +2,7 @@ package br.edu.fatec.paises.app_screens_and_controls.controller;
 
 import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
 import br.edu.fatec.paises.app_screens_and_controls.screens.*;
+import br.edu.fatec.paises.enums.DevelopersText;
 import br.edu.fatec.paises.enums.MenuText;
 
 import javax.swing.*;
@@ -87,7 +88,7 @@ public class Menu {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                    appScreenCredits("Créditos", new DeveloperScreen().mountScreen(800, 800));
+                    appScreenCredits(DevelopersText.LBL_TITLE.getString(), new DeveloperScreen().mountScreen(800, 800));
             }
         };
     }
