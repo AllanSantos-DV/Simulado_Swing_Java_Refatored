@@ -7,6 +7,7 @@ import br.edu.fatec.paises.app_screens_and_controls.screens.MenuScreen;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static br.edu.fatec.paises.Main.logger;
@@ -28,7 +29,10 @@ public interface PanelSettings {
                 .filter(method -> method.isAnnotationPresent(ComponentMethod.class))
                 .forEach(method -> {
                     try {
-                        panelMenu.add((Component) method.invoke(this));
+                        Object component = method.invoke(this);
+                        if(component instanceof List<?>)
+                            ((List<?>) component).forEach(item -> panelMenu.add((Component) item));
+                        else panelMenu.add((Component) component);
                     } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
                         logger.error(String.format(PanelSettingsText.MSG_ERROR.getString(), e.getMessage()), e);
                     }

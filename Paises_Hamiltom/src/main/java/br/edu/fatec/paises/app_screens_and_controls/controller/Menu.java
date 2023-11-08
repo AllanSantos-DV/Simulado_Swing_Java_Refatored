@@ -1,16 +1,22 @@
 package br.edu.fatec.paises.app_screens_and_controls.controller;
 
+import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
 import br.edu.fatec.paises.app_screens_and_controls.screens.*;
 import br.edu.fatec.paises.enums.MenuText;
-import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
 
 import static br.edu.fatec.paises.Main.COUNTRY_DAO;
+import static br.edu.fatec.paises.Main.logger;
 
 public class Menu {
 
-    public void appScreen(String name, JPanel panel) {
+    public JFrame appScreen(String name, JPanel panel) {
         JFrame frame = new JFrame(name);
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -19,6 +25,12 @@ public class Menu {
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setVisible(true);
+        return frame;
+    }
+
+    public void appScreenCredits(String name, JPanel panel) {
+        JFrame frame = appScreen(name, panel);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     public void closeScreen(JButton button) {
@@ -55,6 +67,28 @@ public class Menu {
             case BTN_REGISTER_NEIGHBOR -> new NeighboringCountryRegistrationScreen();
             case BTN_MANAGE_COUNTRY -> new CountryManagerScreen();
             default -> new MenuScreen();
+        };
+    }
+
+    public MouseAdapter mouseListenerGitHub() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                try {
+                    Desktop.getDesktop().browse(URI.create(MenuText.LINK_GITHUB.getString()));
+                } catch (IOException e) {
+                    logger.error(MenuText.MSG_ERROR.getString(), e);
+                }
+            }
+        };
+    }
+
+    public MouseAdapter mouseListenerCredits() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                    appScreenCredits("Créditos", new DeveloperScreen().mountScreen(800, 800));
+            }
         };
     }
 }
