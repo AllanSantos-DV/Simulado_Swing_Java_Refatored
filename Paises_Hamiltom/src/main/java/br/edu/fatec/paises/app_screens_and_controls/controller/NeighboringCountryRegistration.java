@@ -1,9 +1,10 @@
 package br.edu.fatec.paises.app_screens_and_controls.controller;
 
-import br.edu.fatec.paises.enums.NeighborRegistrationText;
 import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
-import br.edu.fatec.paises.models.Country;
 import br.edu.fatec.paises.app_screens_and_controls.screens.NeighboringCountryRegistrationScreen;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
+import br.edu.fatec.paises.enums.NeighborRegistrationText;
+import br.edu.fatec.paises.models.Country;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -12,72 +13,107 @@ import java.util.Objects;
 
 import static br.edu.fatec.paises.Main.COUNTRY_DAO;
 
-public class NeighboringCountryRegistration {
+public class NeighboringCountryRegistration extends NeighboringCountryRegistrationScreen implements PanelSettings {
     private final List<Country> neighbors = new ArrayList<>();
     private Object comboBoxPaisSelected;
 
-    public void backMenu(JButton button, PanelSettings panel) {
-        if (!neighbors.isEmpty() && panel.confirmBackMenu()) panel.backMenu(button);
-        if (neighbors.isEmpty()) panel.backMenu(button);
+    private final List<JComponent> components = List.of(lblTitle, lblCountry, lblNeighbor, lblSuccess, cmbCountry,
+            cmbNeighbor, btnSelected, btnRegister, btnMenu);
+
+    @ComponentMethod
+    public List<JComponent> listComponents() {
+        return components;
     }
 
-    protected void updateCombs(NeighboringCountryRegistrationScreen nCRS) {
-        nCRS.getCmbCountry().removeAllItems();
-        COUNTRY_DAO.findAll().forEach(pais -> nCRS.getCmbCountry().addItem(pais.getName()));
-        updateNeighborCmb(nCRS);
+    public NeighboringCountryRegistration() {
+        updateCombs();
+        cmbCountry.addActionListener(e -> changeCountry());
+        btnRegister.addActionListener(e -> addSelectedCountries());
+        btnSelected.addActionListener(e -> selectNeighbor());
+        btnMenu.addActionListener(e -> backMenu(btnMenu));
+        lblTitle.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
     }
 
-    protected void updateNeighborCmb(NeighboringCountryRegistrationScreen nCRS) {
-        nCRS.getCmbNeighbor().removeAllItems();
-        Country countrySelected = COUNTRY_DAO.findByName(Objects.requireNonNull(nCRS.getCmbCountry().getSelectedItem()).toString());
-        COUNTRY_DAO.findAll().stream()
+    public void backMenu(JButton button) {
+        if (neighbors.isEmpty() || confirmBackMenu(button.getText())) changeScreen(button);
+    }
+
+    protected void updateCombs() {
+        cmbCountry.removeAllItems();
+        COUNTRY_DAO.findAll().forEach(pais -> cmbCountry.addItem(pais.getName()));
+        updateNeighborCmb();
+    }
+
+    protected void updateNeighborCmb() {
+        cmbNeighbor.removeAllItems();
+        String selectedCountryName = Objects.requireNonNull(cmbCountry.getSelectedItem()).toString();
+        Country countrySelected = findCountryByName(selectedCountryName);
+        List<Country> allCountries = findAllCountries();
+        List<Country> filteredCountries = filterCountries(countrySelected, allCountries);
+        addCountriesToCmbNeighbors(filteredCountries);
+        checkEmptyNeighborCmb();
+    }
+
+    private Country findCountryByName(String name) {
+        return COUNTRY_DAO.findByName(name);
+    }
+
+    private List<Country> findAllCountries() {
+        return COUNTRY_DAO.findAll();
+    }
+
+    private List<Country> filterCountries(Country countrySelected, List<Country> allCountries) {
+        return allCountries.stream()
                 .filter(country -> !country.equals(countrySelected)
                         && !neighbors.contains(country)
                         && !countrySelected.getFrontier().contains(country))
-                .forEach(country -> nCRS.getCmbNeighbor().addItem(country.getName()));
-        checkEmptyNeighborCmb(nCRS);
+                .toList();
     }
 
-    protected void selectNeighbor(NeighboringCountryRegistrationScreen nCRS) {
-        comboBoxPaisSelected = nCRS.getCmbCountry().getSelectedItem();
-        Country selectedNeighbor = COUNTRY_DAO.findByName(Objects.requireNonNull(nCRS.getCmbNeighbor().getSelectedItem()).toString());
+    private void addCountriesToCmbNeighbors(List<Country> countries) {
+        countries.forEach(country -> cmbNeighbor.addItem(country.getName()));
+    }
+
+    protected void selectNeighbor() {
+        comboBoxPaisSelected = cmbCountry.getSelectedItem();
+        Country selectedNeighbor = COUNTRY_DAO.findByName(Objects.requireNonNull(cmbNeighbor.getSelectedItem()).toString());
         neighbors.add(selectedNeighbor);
-        lblCountrySelected(nCRS, selectedNeighbor.getName());
-        updateNeighborCmb(nCRS);
-        checkEmptyNeighborCmb(nCRS);
+        lblCountrySelected(selectedNeighbor.getName());
+        updateNeighborCmb();
+        checkEmptyNeighborCmb();
     }
 
-    protected void lblCountrySelected(NeighboringCountryRegistrationScreen nCRS
-            , String selectedCountry) {
-        nCRS.getLblSuccess().setText(NeighborRegistrationText.LBL_COUNTRY_SELECTED.getString() + selectedCountry);
+    protected void lblCountrySelected(String selectedCountry) {
+        lblSuccess.setText(NeighborRegistrationText.LBL_COUNTRY_SELECTED.getString() + selectedCountry);
     }
 
-    protected void checkEmptyNeighborCmb(NeighboringCountryRegistrationScreen nCRS) {
-        if(nCRS.getCmbNeighbor().getItemCount() == 0) {
-            nCRS.getCmbNeighbor().addItem(NeighborRegistrationText.LBL_ERROR_EMPTY_FIELD.getString());
-            nCRS.getCmbNeighbor().setEnabled(false);
-            nCRS.getBtnSelected().setEnabled(false);
+    protected void checkEmptyNeighborCmb() {
+        if(cmbNeighbor.getItemCount() == 0) {
+            cmbNeighbor.addItem(NeighborRegistrationText.LBL_ERROR_EMPTY_FIELD.getString());
+            cmbNeighbor.setEnabled(false);
+            btnSelected.setEnabled(false);
         }
     }
 
-    public void changeCountry(NeighboringCountryRegistrationScreen nCRS){
-        if (!neighbors.isEmpty() && confirmChanges()){
-            neighbors.clear();
-            nCRS.getLblSuccess().setText(NeighborRegistrationText.LBL_CLEAR_LIST_CHANGE.getString());
-            updateNeighborCmbChangeCountry(nCRS);
-            return;
-        }
+    public void changeCountry() {
         if (neighbors.isEmpty()){
-            updateNeighborCmbChangeCountry(nCRS);
+            updateNeighborCmbChangeCountry();
+            lblSuccess.setText("");
             return;
         }
-        nCRS.getCmbCountry().setSelectedItem(comboBoxPaisSelected);
+        if (confirmChanges()){
+            neighbors.clear();
+            lblSuccess.setText(NeighborRegistrationText.LBL_CLEAR_LIST_CHANGE.getString());
+            updateNeighborCmbChangeCountry();
+            return;
+        }
+        cmbCountry.setSelectedItem(comboBoxPaisSelected);
     }
 
-    protected void updateNeighborCmbChangeCountry(NeighboringCountryRegistrationScreen nCRS) {
-        updateNeighborCmb(nCRS);
-        nCRS.getBtnSelected().setEnabled(true);
-        nCRS.getCmbNeighbor().setEnabled(true);
+    protected void updateNeighborCmbChangeCountry() {
+        updateNeighborCmb();
+        btnSelected.setEnabled(true);
+        cmbNeighbor.setEnabled(true);
     }
 
     public boolean confirmChanges(){
@@ -92,16 +128,16 @@ public class NeighboringCountryRegistration {
         return confirm == JOptionPane.YES_OPTION;
     }
 
-    protected void addSelectedCountries(NeighboringCountryRegistrationScreen nCRS){
+    protected void addSelectedCountries() {
         if (neighbors.isEmpty()) {
-            nCRS.getLblSuccess().setText(NeighborRegistrationText.LBL_ERROR_EMPTY_FIELD.getString());
+            lblSuccess.setText(NeighborRegistrationText.LBL_ERROR_EMPTY_FIELD.getString());
             return;
         }
         List<Country> neighborsSelected = new ArrayList<>(neighbors);
-        Country countrySelected = COUNTRY_DAO.findByName(Objects.requireNonNull(nCRS.getCmbCountry().getSelectedItem()).toString());
+        Country countrySelected = COUNTRY_DAO.findByName(Objects.requireNonNull(cmbCountry.getSelectedItem()).toString());
         for (Country frontierCountry : neighborsSelected) frontierCountry.setFrontier(List.of(countrySelected));
         countrySelected.setFrontier(neighborsSelected);
-        nCRS.getLblSuccess().setText(NeighborRegistrationText.LBL_SUCCESS_TEXT.getString());
+        lblSuccess.setText(NeighborRegistrationText.LBL_SUCCESS_TEXT.getString());
         neighbors.clear();
     }
 }

@@ -1,6 +1,7 @@
 package br.edu.fatec.paises.enums;
 
 public enum CountryManagerText {
+
     LBL_TITLE("Gerenciar País"), LBL_SELECT_COUNTRY("Selecione o País:"),
     BTN_DELETE_COUNTRY("Deletar País"), LBL_ERROR_EMPTY_NEIGHBORS("Lista de vizinhos vazia!"),
     BTN_DELETE_NEIGHBOR("Deletar Vizinho"), LBL_DELETE_COUNTRY("País %s deletado com sucesso!"),

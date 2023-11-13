@@ -1,8 +1,8 @@
 package br.edu.fatec.paises.app_screens_and_controls.implementar;
 
+import br.edu.fatec.paises.app_screens_and_controls.controller.Menu;
 import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.PanelSettingsText;
-import br.edu.fatec.paises.app_screens_and_controls.screens.MenuScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static br.edu.fatec.paises.Main.logger;
-import static br.edu.fatec.paises.Main.MENU;
 
 public interface PanelSettings {
 
@@ -20,37 +19,42 @@ public interface PanelSettings {
     }
 
     default JPanel mountScreen(int width, int height) {
-        JPanel panelMenu = new JPanel();
+        JPanel jPanel = new JPanel();
         int border = 10;
-        panelMenu.setLayout(null);
-        panelMenu.setBorder(BorderFactory.createMatteBorder(border, border, border, border, Color.LIGHT_GRAY));
-        panelMenu.setSize(width, height);
+        jPanel.setLayout(null);
+        jPanel.setBorder(BorderFactory.createMatteBorder(border, border, border, border, Color.LIGHT_GRAY));
+        jPanel.setSize(width, height);
         Stream.of(this.getClass().getMethods())
                 .filter(method -> method.isAnnotationPresent(ComponentMethod.class))
                 .forEach(method -> {
                     try {
                         Object component = method.invoke(this);
                         if(component instanceof List<?>)
-                            ((List<?>) component).forEach(item -> panelMenu.add((Component) item));
-                        else panelMenu.add((Component) component);
+                            ((List<?>) component).forEach(item -> jPanel.add((Component) item));
+                        else jPanel.add((Component) component);
                     } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
                         logger.error(String.format(PanelSettingsText.MSG_ERROR.getString(), e.getMessage()), e);
                     }
                 });
-        return panelMenu;
+        return jPanel;
     }
 
-    default void backMenu(JButton button) {
-        MENU.closeScreen(button);
-        MENU.appScreen(PanelSettingsText.TELA_MENU.getString(), new MenuScreen().mountScreen());
+    default void changeScreen(JButton button, String screenName, JPanel panel) {
+        Menu menu = new Menu();
+        menu.closeScreen(button);
+        menu.appScreen(screenName, panel);
     }
 
-    default boolean confirmBackMenu(){
+    default void changeScreen(JButton button) {
+        changeScreen(button, button.getName(), new Menu().mountScreen());
+    }
+
+    default boolean confirmBackMenu(String title){
         String[] options = {PanelSettingsText.BTN_CONFIRM.getString(), PanelSettingsText.BTN_CANCEL.getString()};
         int confirm = JOptionPane.showInternalOptionDialog(
                 null, PanelSettingsText.MSG_CONFIRM.getString() +
                         "\n" + PanelSettingsText.MSG_WARNING.getString()
-                , PanelSettingsText.MSG_TITLE_CONFIRM.getString()
+                , title
                 , JOptionPane.YES_NO_OPTION
                 , JOptionPane.QUESTION_MESSAGE, null
                 , options
