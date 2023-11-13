@@ -1,7 +1,8 @@
 package br.edu.fatec.paises.app_screens_and_controls.controller;
 
 import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
-import br.edu.fatec.paises.app_screens_and_controls.screens.*;
+import br.edu.fatec.paises.app_screens_and_controls.screens.MenuScreen;
+import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.DevelopersText;
 import br.edu.fatec.paises.enums.MenuText;
 
@@ -11,13 +12,32 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import static br.edu.fatec.paises.Main.COUNTRY_DAO;
 import static br.edu.fatec.paises.Main.logger;
 
-public class Menu {
+public class Menu extends MenuScreen implements PanelSettings {
 
+    private final java.util.List<JComponent> components = List.of(lblTitle, btnRegisterCountry, btnRegisterNeighborCountry,
+            btnEditCountry, btnListCountries, linkGitHub, linkLabelDevelopers);
+
+    @ComponentMethod
+    public List<JComponent> listComponents() {
+        return components;
+    }
+
+    public Menu() {
+        Stream.of(btnRegisterCountry, btnRegisterNeighborCountry, btnEditCountry, btnListCountries)
+                .forEach(this::addListener);
+        linkGitHub.addMouseListener(mouseListenerGitHub());
+        linkLabelDevelopers.addMouseListener(mouseListenerCredits());
+    }
     public JFrame appScreen(String name, JPanel panel) {
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("img/Countries.png")));
         JFrame frame = new JFrame(name);
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -25,11 +45,12 @@ public class Menu {
         frame.setSize(panel.getSize());
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
+        frame.setIconImage(icon.getImage());
         frame.setVisible(true);
         return frame;
     }
 
-    public void appScreenCredits(String name, JPanel panel) {
+    public void appScreenDevelopers(String name, JPanel panel) {
         JFrame frame = appScreen(name, panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
@@ -47,7 +68,7 @@ public class Menu {
                     MenuText.LBL_TITLE.getString(), JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                     null,options, options[0]);
             if ((choice == 0)) appScreen(options[choice], initializeScreens(options[choice]).mountScreen());
-            else appScreen(options[choice], new MenuScreen().mountScreen());
+            else appScreen(options[choice], new Menu().mountScreen());
             return true;
         }
         return false;
@@ -63,11 +84,11 @@ public class Menu {
 
     public PanelSettings initializeScreens(String buttonText) {
         return switch (MenuText.getEnum(buttonText)) {
-            case BTN_NEW_COUNTRY -> new CountryRegistrationScreen();
-            case BTN_LIST_COUNTRIES -> new CountryListScreen();
-            case BTN_REGISTER_NEIGHBOR -> new NeighboringCountryRegistrationScreen();
-            case BTN_MANAGE_COUNTRY -> new CountryManagerScreen();
-            default -> new MenuScreen();
+            case BTN_NEW_COUNTRY -> new CountryRegistration();
+            case BTN_LIST_COUNTRIES -> new CountryList();
+            case BTN_REGISTER_NEIGHBOR -> new NeighboringCountryRegistration();
+            case BTN_MANAGE_COUNTRY -> new CountryManager();
+            default -> new Menu();
         };
     }
 
@@ -88,7 +109,7 @@ public class Menu {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                    appScreenCredits(DevelopersText.LBL_TITLE.getString(), new DeveloperScreen().mountScreen(800, 800));
+                    appScreenDevelopers(DevelopersText.LBL_TITLE.getString(), new Developers().mountScreen(800, 800));
             }
         };
     }

@@ -3,6 +3,7 @@ package br.edu.fatec.paises.enums;
 import java.util.Arrays;
 
 public enum CountryListText {
+
     LBL_TITLE("Listar Países"), LBL_ORDERING_TITLE("Listar por: "),
     BTN_ORDERING_NAME("Nome"), BTN_ORDERING_CAPITAL("Capital"),
     BTN_ORDERING_DIMENSION("Dimensao"), LBL_QTD_COUNTRIES("Quantidade de Países: "),

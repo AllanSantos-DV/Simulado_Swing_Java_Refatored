@@ -1,83 +1,33 @@
 package br.edu.fatec.paises.app_screens_and_controls.screens;
 
-import br.edu.fatec.paises.app_screens_and_controls.controller.Menu;
-import br.edu.fatec.paises.app_screens_and_controls.implementar.PanelSettings;
-import br.edu.fatec.paises.app_screens_and_controls.screens.components_anotation.ComponentMethod;
 import br.edu.fatec.paises.enums.MenuText;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.stream.Stream;
 
-public class MenuScreen extends Menu implements PanelSettings {
-    private final JLabel lblTitle = new JLabel();
-    private final JButton btnRegisterCountry = new JButton(MenuText.BTN_NEW_COUNTRY.getString());
-    private final JButton btnRegisterNeighborCountry = new JButton(MenuText.BTN_REGISTER_NEIGHBOR.getString());
-    private final JButton btnEditCountry = new JButton(MenuText.BTN_MANAGE_COUNTRY.getString());
-    private final JButton btnListCountries = new JButton(MenuText.BTN_LIST_COUNTRIES.getString());
-    private final JLabel linkGitHub = new JLabel();
-    private final JLabel credits = new JLabel();
-    private static final int COMPONENTS_WIDTH = 150;
-    private static final int COMPONENTS_HEIGHT = 30;
-    private static final String TYPE_FONT = "Arial";
+public class MenuScreen {
 
-    public MenuScreen() {
-        Stream.of(btnRegisterCountry, btnRegisterNeighborCountry, btnEditCountry, btnListCountries)
-                .forEach(this::addListener);
-        linkGitHub.addMouseListener(mouseListenerGitHub());
-        credits.addMouseListener(mouseListenerCredits());
+    protected final JLabel lblTitle = createLabel(MenuText.LBL_TITLE.getString(), 10, 20, Cursor.DEFAULT_CURSOR);
+    protected final JButton btnRegisterCountry = createButton(MenuText.BTN_NEW_COUNTRY.getString(), 70, 100);
+    protected final JButton btnRegisterNeighborCountry = createButton(MenuText.BTN_REGISTER_NEIGHBOR.getString(), 70, 140);
+    protected final JButton btnEditCountry = createButton(MenuText.BTN_MANAGE_COUNTRY.getString(), 250, 100);
+    protected final JButton btnListCountries = createButton(MenuText.BTN_LIST_COUNTRIES.getString(), 250, 140);
+    protected final JLabel linkGitHub = createLabel(MenuText.LBL_NAME_GITHUB.getString(), 180, 15, Cursor.HAND_CURSOR);
+    protected final JLabel linkLabelDevelopers = createLabel(MenuText.LBL_DEVELOPERS.getString(), 200, 15, Cursor.HAND_CURSOR);
+    private static final int COMPONENTS_WIDTH = 150, COMPONENTS_HEIGHT = 30;
+
+    private JButton createButton(String text, int x, int y) {
+        JButton button = new JButton(text);
+        button.setBounds(x, y, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
+        return button;
     }
 
-    @ComponentMethod
-    public JLabel getLblTitle() {
-        lblTitle.setText(MenuText.LBL_TITLE.getString());
-        lblTitle.setFont(new Font(TYPE_FONT, Font.BOLD, 25));
-        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitle.setBounds(15, 10, COMPONENTS_WIDTH * 3, COMPONENTS_HEIGHT * 3);
-        return lblTitle;
-    }
-
-    @ComponentMethod
-    public JButton getBtnRegisterCountry() {
-        btnRegisterCountry.setBounds(70, 100, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
-        return btnRegisterCountry;
-    }
-
-    @ComponentMethod
-    public JButton getBtnRegisterNeighborCountry() {
-        btnRegisterNeighborCountry.setBounds(70, 140, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
-        return btnRegisterNeighborCountry;
-    }
-
-    @ComponentMethod
-    public JButton getBtnManageCountry() {
-        btnEditCountry.setBounds(250, 100, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
-        return btnEditCountry;
-    }
-
-    @ComponentMethod
-    public JButton getBtnListCountries() {
-        btnListCountries.setBounds(250, 140, COMPONENTS_WIDTH, COMPONENTS_HEIGHT);
-        return btnListCountries;
-    }
-
-    @ComponentMethod
-    public JLabel getLinkGitHub() {
-        linkGitHub.setText(MenuText.LBL_NAME_GITHUB.getString());
-        linkGitHub.setBounds(10, 180, COMPONENTS_WIDTH * 3, COMPONENTS_HEIGHT);
-        linkGitHub.setFont(new Font(TYPE_FONT, Font.BOLD, 15));
-        linkGitHub.setHorizontalAlignment(SwingConstants.CENTER);
-        linkGitHub.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        return linkGitHub;
-    }
-
-    @ComponentMethod
-    public JLabel getDevelopers() {
-        credits.setText(MenuText.LBL_DEVELOPERS.getString());
-        credits.setBounds(10, 200, COMPONENTS_WIDTH * 3, COMPONENTS_HEIGHT);
-        credits.setFont(new Font(TYPE_FONT, Font.BOLD, 15));
-        credits.setHorizontalAlignment(SwingConstants.CENTER);
-        credits.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        return credits;
+    private JLabel createLabel(String text, int y, int sizeFont, int cursor) {
+        JLabel label = new JLabel(text);
+        label.setBounds(10, y, COMPONENTS_WIDTH * 3, COMPONENTS_HEIGHT);
+        label.setFont(new Font("Arial", Font.BOLD, sizeFont));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setCursor(Cursor.getPredefinedCursor(cursor));
+        return label;
     }
 }

@@ -1,6 +1,7 @@
 package br.edu.fatec.paises.enums;
 
 public enum DevelopersText {
+
     LBL_TITLE("Desenvolvedores");
 
     private final String string;

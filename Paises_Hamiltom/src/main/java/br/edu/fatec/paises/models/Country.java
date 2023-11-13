@@ -22,6 +22,11 @@ public class Country {
 
     // Equals and HashCode
 
+    public boolean countryEquals(Country country) {
+        return Objects.equals(name.toLowerCase(), country.getName().toLowerCase())
+                && Objects.equals(capital.toLowerCase(), country.getCapital().toLowerCase());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,7 +37,7 @@ public class Country {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, capital);
+        return Objects.hash(name.toLowerCase());
     }
 
     // Getters and Setters
