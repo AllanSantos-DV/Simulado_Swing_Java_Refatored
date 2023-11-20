@@ -11,27 +11,25 @@ public class CountryDAO {
     private static final List<Country> COUNTRY_LIST_ORDERED = new LinkedList<>();
     private static final Map<String, Country> COUNTRIES = new LinkedHashMap<>();
 
-    // Constructors
-
     public CountryDAO() {
-        save("Brasil", "Brasilia", 8516000);
-        save("Argentina", "Buenos Aires", 2780000);
-        save("Uruguai", "Montevidéu", 176000);
-        save("Paraguai", "Assunção", 406752);
-        save("Bolívia", "Sucre", 1098581);
-        save("Peru", "Lima", 1285216);
-        save("Colômbia", "Bogotá", 1141748);
-        save("Venezuela", "Caracas", 916445);
-        save("Guiana", "Georgetown", 214969);
-        save("Suriname", "Paramaribo", 163820);
-        save("Guiana Francesa", "Caiena", 83534);
-        save("Equador", "Quito", 283561);
-        save("Chile", "Santiago", 756102);
-        save("Ilhas Malvinas", "Stanley", 12173);
+        inicializarPaises();
     }
 
-    private void save(String name, String capital, double dimension) {
-        save(new Country(name, capital, dimension));
+    private void inicializarPaises() {
+        save(new Country("Brasil", "Brasília", 8516000));
+        save(new Country("Argentina", "Buenos Aires", 2780000));
+        save(new Country("Uruguai", "Montevidéu", 176000));
+        save(new Country("Paraguai", "Assunção", 406752));
+        save(new Country("Bolívia", "Sucre", 1098581));
+        save(new Country("Peru", "Lima", 1285216));
+        save(new Country("Colômbia", "Bogotá", 1141748));
+        save(new Country("Venezuela", "Caracas", 916445));
+        save(new Country("Guiana", "Georgetown", 214969));
+        save(new Country("Suriname", "Paramaribo", 163820));
+        save(new Country("Guiana Francesa", "Caiena", 83534));
+        save(new Country("Equador", "Quito", 283561));
+        save(new Country("Chile", "Santiago", 756102));
+        save(new Country("Ilhas Malvinas", "Stanley", 12173));
     }
 
     public void save(Country country) {

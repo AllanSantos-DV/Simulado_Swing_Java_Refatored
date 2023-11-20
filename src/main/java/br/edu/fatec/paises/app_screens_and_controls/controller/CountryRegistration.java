@@ -48,16 +48,14 @@ public class CountryRegistration extends CountryRegistrationScreen implements Pa
 
     public Country getCountry() {
         String name = txtName.getText().toLowerCase();
-        String nameFormatted = name.substring(0, 1).toUpperCase() + name.substring(1);
         String capital = txtCapital.getText().toLowerCase();
-        String capitalFormatted = capital.substring(0, 1).toUpperCase() + capital.substring(1);
-        return new Country(nameFormatted, capitalFormatted, Double.parseDouble(txtDimension.getValue().toString()));
+        return new Country(name, capital, Double.parseDouble(txtDimension.getValue().toString()));
     }
 
     public void addCountry() {
         Country newCountry = getCountry();
         if (checkCreateEditCountry(COUNTRY_DAO.findAll(), newCountry)) return;
-        COUNTRY_DAO.save(newCountry);
+        COUNTRY_DAO.save(newCountry.getFormattedCountry());
         clearFields();
         labelSaveCountry(lblInfo, newCountry.getName());
     }
@@ -86,7 +84,7 @@ public class CountryRegistration extends CountryRegistrationScreen implements Pa
         List<Country> countries = getCountries();
         countries.remove(countryEdit);
         if (checkCreateEditCountry(countries, newCountry)) return;
-        COUNTRY_DAO.editCountry(countryEdit.getName(), newCountry);
+        COUNTRY_DAO.editCountry(countryEdit.getName(), newCountry.getFormattedCountry());
         changeScreen(btnEdit, AppText.LBL_TITLE_MANAGER_COUNTRY.getString(), new CountryManager().mountScreen());
         JOptionPane.showMessageDialog(null, String.format(AppText.LBL_INFO_SUCCESS_COUNTRY_EDITED.getString(), countryEdit.getName()));
     }
@@ -98,7 +96,7 @@ public class CountryRegistration extends CountryRegistrationScreen implements Pa
     public boolean checkCreateEditCountry(List<Country> countries, Country newCountry) {
         return Stream.of(checkFields(newCountry)
                         , countryExists(countries, newCountry))
-                .anyMatch(Boolean::booleanValue) || !confirmCreateEditCountry(lblInfo, newCountry);
+                .anyMatch(Boolean::booleanValue) || !confirmCreateEditCountry(lblInfo, newCountry.getFormattedCountry());
     }
 
     public boolean confirmCreateEditCountry(JLabel lblSuccess, Country country) {
@@ -108,9 +106,9 @@ public class CountryRegistration extends CountryRegistrationScreen implements Pa
         double dimension = country.getDimension();
         String[] options = {AppText.BTN_OPTION_SAVE.getString(), AppText.BTN_CANCEL.getString()};
         int confirm = JOptionPane.showInternalOptionDialog(
-                null, AppText.LBL_COUNTRY_NAME.getString() + name +
-                        "\n" + AppText.LBL_COUNTRY_CAPITAL.getString() + capital +
-                        "\n" + AppText.LBL_COUNTRY_DIMENSION.getString() + dimension,
+                null, AppText.LBL_COUNTRY_NAME.getString() + " " + name +
+                        "\n" + AppText.LBL_COUNTRY_CAPITAL.getString() + " " + capital +
+                        "\n" + AppText.LBL_COUNTRY_DIMENSION.getString() + " " + dimension,
                 AppText.LBL_OPTION_TITLE_CREATE_COUNTRY_CONFIRM.getString(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, options[0]);
         return confirm == JOptionPane.YES_OPTION;

@@ -72,4 +72,12 @@ public class Country {
         String countryAndFrontier = AppText.PRINT_COUNTRY.getString() + "%s";
         return String.format(countryAndFrontier, name, capital, dimension, countryName);
     }
+
+    // Methods
+
+    public Country getFormattedCountry() {
+        String nameCountry = this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
+        String capitalCountry = this.capital.substring(0, 1).toUpperCase() + this.capital.substring(1);
+        return new Country(nameCountry, capitalCountry, dimension);
+    }
 }
