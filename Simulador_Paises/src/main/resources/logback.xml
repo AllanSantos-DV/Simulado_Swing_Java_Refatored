@@ -1,0 +1,13 @@
+<configuration>
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/error-info.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+</configuration>
