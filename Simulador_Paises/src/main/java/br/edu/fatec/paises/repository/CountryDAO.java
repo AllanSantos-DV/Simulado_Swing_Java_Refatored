@@ -12,10 +12,10 @@ public class CountryDAO {
     private static final Map<String, Country> COUNTRIES = new LinkedHashMap<>();
 
     public CountryDAO() {
-        inicializarPaises();
+        initCountries();
     }
 
-    private void inicializarPaises() {
+    private void initCountries() {
         save(new Country("Brasil", "Brasília", 8516000));
         save(new Country("Argentina", "Buenos Aires", 2780000));
         save(new Country("Uruguai", "Montevidéu", 176000));
